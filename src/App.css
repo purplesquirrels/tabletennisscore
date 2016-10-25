@@ -131,9 +131,10 @@ html, body, #root, .App {
   background: #EFEFEF;
   margin: 0 1vw; 
   font-size: 10rem;
-  color: #CCC;
+  color: #333;
   user-select: none;
   border-radius: 10px;
+  transition: background-color 0.2s;
 }
 
 .playername {
@@ -146,9 +147,14 @@ html, body, #root, .App {
 .removescore {
   font-size: 1.5rem;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: -0.9rem;
+  right: -0.9rem;
   padding: 0 0.5em;
+  border: 3px solid #FFF;
+  background-color: #f75555;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
 }
 
 .player.serving {
