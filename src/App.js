@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import './App.css';
 
+const io = require('socket.io-client');
+
 const config = {
   numserves: 5
 }
@@ -35,7 +37,7 @@ class App extends Component {
     window.onbeforeunload = function () {
       return  "Are you sure want to close? Scores will not be saved.";
     };
-    
+
     state.initialserve = firstserver;
     state.serving = state.initialserve;
     state.firstload = false;
