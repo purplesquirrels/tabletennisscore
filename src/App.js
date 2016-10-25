@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PlayerCard from './components/PlayerCard';
 import classnames from 'classnames';
 import './App.css';
 
@@ -6,14 +7,31 @@ const config = {
   numserves: 5
 }
 
-let state = {
-  firstload: true,
-  players: ["", ""],
-  results: [],
-  scores: [0,0],
-  swapped: false,
-  initialserve: 0,
-  serving: 0
+let history = {
+  past: []
+}
+
+let state = {}
+let matches = [];
+
+const newState = () => {
+  return {
+    firstload: true,
+    players: ["", ""],
+    results: [],
+    scores: [0,0],
+    swapped: false,
+    initialserve: 0,
+    serving: 0
+  };
+}
+const cloneState = (state) => {
+  return {
+    ...state,
+    players : [...state.players],
+    results : [...state.results],
+    scores : [...state.scores],
+  };
 }
 
 class App extends Component {
@@ -25,9 +43,10 @@ class App extends Component {
     this.addScore = this.addScore.bind(this);
     this.removeScore = this.removeScore.bind(this);
     this.endSet = this.endSet.bind(this);
+    this.undoEndSet = this.undoEndSet.bind(this);
     this.newMatch = this.newMatch.bind(this);
 
-    this.state = state;
+    this.state = state = newState();
   }
 
   startMatch(firstserver) {
@@ -86,9 +105,24 @@ class App extends Component {
 
   }
 
+  undoEndSet() {
+    console.log(history);
+    if (history.past.length > 0) {
+
+      var s = history.past.pop();
+
+      state = s;
+      this.setState(state);
+
+    }
+  }
+
   endSet() {
 
-    if (confirm("End the set?")) {
+    //if (confirm("End the set?")) {
+
+      history.past.push(cloneState(state));
+
       state.results.push([...state.scores]);
       state.scores = [0, 0];
       state.swapped = !state.swapped;
@@ -96,11 +130,19 @@ class App extends Component {
       state.serving = state.initialserve;
 
       this.setState(state);
-   }
+  // }
   }
 
   newMatch() {
     window.open(window.location);
+
+    /*
+    matches.push(cloneState(state));
+
+    state = newState();
+    this.setState(state);
+
+    */
   }
 
   getSetScores() {
@@ -149,44 +191,52 @@ class App extends Component {
       </div>)
     }
 
+    const firstgame = this.state.scores[0] + this.state.scores[1] === 0 && history.past.length > 0;
 
-    let player1classes = classnames({
-      "player" : true,
+
+    let player1classes = {
       "player1" : true,
       "serving" : this.state.serving === 0,
-    });
+    };
 
-    let player2classes = classnames({
-      "player" : true,
+    let player2classes = {
       "player2" : true,
       "serving" : this.state.serving === 1
-    });
+    };
 
     let appscoreclasses = classnames({
       "App-score" : true,
       "swapends" : this.state.swapped
     });
 
-
+    let players = [
+      <PlayerCard 
+        key={0}
+        playername={this.state.players[0]}
+        scores={this.state.scores[0]}
+        classes={player1classes}
+        onAddScore={() => this.addScore(0)}
+        onRemoveScore={(e) => this.removeScore(0)} />,
+      <PlayerCard 
+        key={1}
+        playername={this.state.players[1]}
+        scores={this.state.scores[1]}
+        classes={player2classes}
+        onAddScore={() => this.addScore(1)}
+        onRemoveScore={(e) => this.removeScore(1)} />
+      
+    ];
 
     return (
       <div className="App">
         <div className="App-results">
           {this.getSetScores()}
           <button className="newmatch" onClick={this.newMatch}>Open new match</button>
+          {firstgame && <button className="undoendset" onClick={this.undoEndSet}>Undo</button>}
           <button className="endset" onClick={this.endSet}>End set</button>
         </div>
         <div className={appscoreclasses}>
-          <div className={player1classes} onClick={() => this.addScore(0)}>
-            <div className={"playername"}>{this.state.players[0]}</div>
-            {this.state.scores[0]}
-            <button className="removescore" onClick={(e) => {e.stopPropagation();this.removeScore(0)}}>-</button>
-          </div>
-          <div className={player2classes} onClick={() => this.addScore(1)}>
-            <div className={"playername"}>{this.state.players[1]}</div>
-            {this.state.scores[1]}
-            <button className="removescore" onClick={(e) => {e.stopPropagation();this.removeScore(1)}}>-</button>
-          </div>
+          {players}
         </div>
       </div>
     );

@@ -1,0 +1,52 @@
+
+
+.player {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
+  min-height: 100%;
+  background: #EFEFEF;
+  margin: 0 1vw; 
+  font-size: 10rem;
+  color: #333;
+  user-select: none;
+  border-radius: 10px;
+  transform: translateX(0);
+  backface-visibility: hidden;
+  transition: background-color 0.2s, transform 0.75s;
+  transition-delay: 0.1s;
+}
+
+.swapends .player:nth-of-type(1) {
+  transform: translateX(125%)
+}
+.swapends .player:nth-of-type(2) {
+  transform: translateX(-125%)
+}
+
+.playername {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.25em;
+}
+.removescore {
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: -0.9rem;
+  right: -0.9rem;
+  padding: 0 0.5em;
+  border: 3px solid #FFF;
+  background-color: #f75555;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+}
+
+.player.serving {
+  background: #6de86c;
+  color: #333;
+}
