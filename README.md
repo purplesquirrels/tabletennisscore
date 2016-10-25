@@ -1,9 +1,12 @@
 
-# tabletennisscore
+# Table Tennis Score
 A super simple table tennis scoring app built with React.
 
+Enter the player names on your left and right, then select who is serving first. The app will display who is serving when and who starts serving on each set, and when players swap ends this will be reflected by swapping the players on screen i.e. the player on your left will be always on the left of the screen.
 
+Tap the end set button to save the result and start a new set.
 
+Note: scores are currently not persisted anywhere. When you refresh you will lose the results.
 
 ## Create React App
 
