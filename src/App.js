@@ -31,6 +31,11 @@ class App extends Component {
   }
 
   startMatch(firstserver) {
+
+    window.onbeforeunload = function () {
+      return  "Are you sure want to close? Scores will not be saved.";
+    };
+    
     state.initialserve = firstserver;
     state.serving = state.initialserve;
     state.firstload = false;
@@ -54,18 +59,21 @@ class App extends Component {
 
     if (state.scores[player] > 0) {
 
+      let wasOnService = (state.scores[0] + state.scores[1]) % config.numserves === 0;
+     
       state.scores[player]--;
 
       if ((state.scores[0] + state.scores[1]) === 0) {
         state.serving = state.initialserve;
       }
-      else if ((state.scores[0] + state.scores[1]) % config.numserves === 0) {
+      else if (wasOnService) {
         state.serving = state.serving === 0 ? 1 : 0;
       }
 
       this.setState(state);
+    }
   }
-  }
+
   addScore(player) {
     state.scores[player]++;
 
