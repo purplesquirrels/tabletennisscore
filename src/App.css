@@ -1,0 +1,157 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html, body, #root, .App {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.firstload {
+  width: 50vw;
+  min-width: 410px;
+  height: 100vh;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width:450px) {
+  .firstload {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.firstload input {
+  padding: 1em;
+  margin: 0 0.25em;
+  flex: 1 1 50%;
+  -webkit-appearance: none;
+  border-radius: 0;
+  border: 1px solid #CCC;
+  min-width: 0;
+}
+
+.name-input,
+.serve-select {
+  width: 100%;
+  display: flex;
+}
+
+
+.serve-select button {
+  flex: 1 1 50%;
+  padding: 1em;
+  margin: 0 0.25em;
+}
+.serve-select button:disabled {
+  opacity: 0.3;
+}
+
+.App-results {
+  background-color: #222;
+  height: 20vh;
+  min-height: 100px;
+  padding: 2vh;
+  color: white;
+  position: relative;
+}
+
+.result {
+    background: #FFF;
+    color: #333;
+    min-width: 70px;
+    height: 100%;
+    display: inline-flex;
+    padding: 0.5em;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.1em;
+    border-radius: 4px;
+}
+.result.winning {
+  background: #6de86c;
+}
+
+.endset {
+  position: absolute;
+  top: 50%;
+  margin-top: -40px;
+  margin-right: 10px;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: #f75555;
+  border: none;
+  -webkit-appearance: none;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+.newmatch {
+  position: absolute;
+  top: 50%;
+  margin-top: -40px;
+  margin-left: 10px;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  background: #797979;
+  border: none;
+  -webkit-appearance: none;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+
+.App-score {
+  flex: 1 1 auto;
+  margin: 5vh 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.App-score.swapends {
+  flex-direction: row-reverse;
+}
+
+.player {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
+  min-height: 100%;
+  background: #EFEFEF;
+  margin: 0 1vw; 
+  font-size: 10rem;
+  color: #CCC;
+  user-select: none;
+  border-radius: 10px;
+}
+
+.playername {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.25em;
+}
+.removescore {
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0 0.5em;
+}
+
+.player.serving {
+  background: #6de86c;
+  color: #333;
+}
