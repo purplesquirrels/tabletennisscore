@@ -73,6 +73,7 @@ class App extends Component {
         playername={state.players[0]}
         scores={state.scores[0]}
         classes={player1classes}
+        subtract={true}
         onAddScore={() => this.props.addScore(0)}
         onRemoveScore={(e) => this.props.removeScore(0)} />,
       <PlayerCard 
@@ -80,6 +81,7 @@ class App extends Component {
         playername={state.players[1]}
         scores={state.scores[1]}
         classes={player2classes}
+        subtract={true}
         onAddScore={() => this.props.addScore(1)}
         onRemoveScore={(e) => this.props.removeScore(1)} />
       

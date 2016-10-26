@@ -3,6 +3,8 @@ import { setMatchCode } from './actions/matchActions';
 
 const io = require('socket.io-client');
 
+//io.set("reconnection limit", 10);
+
 let socket;
 
 
@@ -12,7 +14,7 @@ export const notify = (message, payload) => {
 
 	console.log('notify -> mode', state.match.mode);
 
-	if (socket && (state.match.mode === "broadcast") || message === "join-match"){
+	if (socket && (state.match.mode === "broadcast" || message === "join-match")){
 		/*if (!payload.room) {
 			payload.room = state.match.matchcode;
 		}*/
@@ -31,7 +33,11 @@ function setupSocket() {
 		console.log("connected");
 
 	});
-	
+	/*socket.on('connect_error', function(){
+		console.log("connect error");
+
+	});
+	*/
 	socket.on('send-match-code', function (data) {
 
 

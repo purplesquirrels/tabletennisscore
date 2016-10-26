@@ -21,7 +21,9 @@ class AppViewOnly extends Component {
 
   }
 
-  connectToGame() {
+  connectToGame(e) {
+
+    e.preventDefault();
 
     this.props.setMatchCode(this.state.matchcode);
 
@@ -65,11 +67,11 @@ class AppViewOnly extends Component {
     if (!this.state.isConnected) {
 
       return (<div className="entercode">
-        <p>Enter match code</p>
-        <div className="name-input">
+        <h1>Connect to a game</h1>
+        <form className="code-input">
           <input type="text" value={this.state.matchcode} onChange={(e) => this.setState({matchcode:e.currentTarget.value})} placeholder="Enter match code" />
-          <button className="connect-to-game" onClick={this.connectToGame}>Connect</button>
-        </div>
+          <button type="submit" className="connect-to-game" onClick={this.connectToGame}>Connect</button>
+        </form>
       </div>)
     }
 
