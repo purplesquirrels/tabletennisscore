@@ -1,23 +1,35 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import PlayerCard from './components/PlayerCard';
-import * as Actions from "./actions/matchActions";
 import classnames from 'classnames';
-import './App.css';
-/*
+import './AppViewOnly.css';
+import { setMatchCode } from './actions/matchActions';
+import { notify } from './socket';
 
-const io = require('socket.io-client');
-let socket;*/
-
-
-
-class App extends Component {
+class AppViewOnly extends Component {
 
   constructor(props) {
     super(props);
 
+    this.connectToGame = this.connectToGame.bind(this);
     this.getSetScores = this.getSetScores.bind(this);
 
+    this.state = {
+      isConnected: false,
+      matchcode: ""
+    }
+
+  }
+
+  connectToGame() {
+
+    this.props.setMatchCode(this.state.matchcode);
+
+    this.setState({
+      isConnected: true
+    });
+    //setMatchCode()
+    notify('join-match', {code: this.state.matchcode, room: this.state.matchcode});
   }
 
   getSetScores(state) {
@@ -47,10 +59,19 @@ class App extends Component {
 
   render() {
 
-    const { state, history } = this.props;
+    const { state } = this.props;
 
-    const firstgame = state.scores[0] + state.scores[1] === 0 && history.length > 0;
+   
+    if (!this.state.isConnected) {
 
+      return (<div className="entercode">
+        <p>Enter match code</p>
+        <div className="name-input">
+          <input type="text" value={this.state.matchcode} onChange={(e) => this.setState({matchcode:e.currentTarget.value})} placeholder="Enter match code" />
+          <button className="connect-to-game" onClick={this.connectToGame}>Connect</button>
+        </div>
+      </div>)
+    }
 
     let player1classes = {
       "player1" : true,
@@ -73,15 +94,15 @@ class App extends Component {
         playername={state.players[0]}
         scores={state.scores[0]}
         classes={player1classes}
-        onAddScore={() => this.props.addScore(0)}
-        onRemoveScore={(e) => this.props.removeScore(0)} />,
+        onAddScore={() => {}}
+        onRemoveScore={(e) => {}} />,
       <PlayerCard 
         key={1}
         playername={state.players[1]}
         scores={state.scores[1]}
         classes={player2classes}
-        onAddScore={() => this.props.addScore(1)}
-        onRemoveScore={(e) => this.props.removeScore(1)} />
+        onAddScore={() => {}}
+        onRemoveScore={(e) => {}} />
       
     ];
 
@@ -89,9 +110,6 @@ class App extends Component {
       <div className="App">
         <div className="App-results">
           {this.getSetScores(state)}
-          <button className="newmatch" onClick={this.props.newMatch}>Open new match</button>
-          {firstgame && <button className="undoendset" onClick={this.props.undoEndSet}>Undo</button>}
-          <button className="endset" onClick={this.props.endSet}>End set</button>
         </div>
         <div className={appscoreclasses}>
           {players}
@@ -110,15 +128,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setPlayerName: (player, value) =>  dispatch(Actions.setPlayerName(player, value)),
-        startMatch: (firstserver) =>  dispatch(Actions.startMatch(firstserver)),
-        setInitialServe: (player) =>  dispatch(Actions.setInitialServe(player)),
-        addScore: (player) =>  dispatch(Actions.addScore(player)),
-        removeScore: (player) =>  dispatch(Actions.removeScore(player)),
-        undoEndSet: () =>  dispatch(Actions.undoEndSet()),
-        endSet: () =>  dispatch(Actions.endSet()),
-        newMatch: () =>  dispatch(Actions.newMatch())
+      setMatchCode: (value) =>  dispatch(setMatchCode(value))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(AppViewOnly);

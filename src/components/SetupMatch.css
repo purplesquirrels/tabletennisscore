@@ -1,0 +1,44 @@
+
+.firstload {
+  width: 50vw;
+  min-width: 410px;
+  height: 100vh;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width:450px) {
+  .firstload {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.firstload input {
+  padding: 1em;
+  margin: 0 0.25em;
+  flex: 1 1 50%;
+  -webkit-appearance: none;
+  border-radius: 0;
+  border: 1px solid #CCC;
+  min-width: 0;
+}
+
+.name-input,
+.serve-select {
+  width: 100%;
+  display: flex;
+}
+
+
+.serve-select button {
+  flex: 1 1 50%;
+  padding: 1em;
+  margin: 0 0.25em;
+}
+.serve-select button:disabled {
+  opacity: 0.3;
+}
