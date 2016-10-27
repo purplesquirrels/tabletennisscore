@@ -76,18 +76,21 @@ class AppViewOnly extends Component {
         let p2 = [];
 
         sets.forEach((item, index) => {
-          p1.push(<td className={"past-score" + (item.scores[0] > item.scores[1] ? " winner" : "")} key={"1"+index}>{item.scores[0]} </td>);
-          p2.push(<td className={"past-score" + (item.scores[1] > item.scores[0] ? " winner" : "")} key={"2"+index}>{item.scores[1]} </td>);
+          p1.push(<td className={"past-score" + (item.scores[0] > item.scores[1] ? " winner" : "")} key={"1"+index}>{item.scores[0]}</td>);
+          p2.push(<td className={"past-score" + (item.scores[1] > item.scores[0] ? " winner" : "")} key={"2"+index}>{item.scores[1]}</td>);
         });
+
+        if (p1.length === 2) p1.push(<td className={"past-score"} key={"1bl"}>-</td>);
+        if (p2.length === 2) p2.push(<td className={"past-score"} key={"2bl"}>-</td>);
 
         p1.reverse().push(<td key={"a1"}>{sets[0].players[0]} </td>)
         p2.reverse().push(<td key={"a2"}>{sets[0].players[1]} </td>)
       
 
-        m.push(<div><h2>Match {matches.length - index}</h2><table key={index}>
+        m.push(<div key={index}><h2>Match {matches.length - index}</h2><table><tbody>
           <tr>{p1.reverse()}</tr>
           <tr>{p2.reverse()}</tr>
-        </table></div>);
+        </tbody></table></div>);
 
     });
 

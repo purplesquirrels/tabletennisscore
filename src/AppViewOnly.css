@@ -4,6 +4,7 @@
 .has-past-matches.viewonly .App-results,
 .has-past-matches.viewonly .App-score {
   width: 80vw;
+  position: relative;
 }
 
 .viewonly .past-matches {
@@ -86,7 +87,7 @@ td.winner {
 
 .mirror {
   position: absolute;
-  bottom: 1em;
+  bottom: 1vh;
   left: 50%;
   margin-left: -20px;
   width: 40px;

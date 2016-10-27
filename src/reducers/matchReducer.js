@@ -29,8 +29,8 @@ const initialstate = {
         sets: [cloneSet(newset)]
     }]
 }
-/*
-const initialstate = {
+
+/*const initialstate = {
     mode: config.mode,
     numserves: config.numserves,
     currentmatch: 0,
@@ -39,13 +39,13 @@ const initialstate = {
         sets: [cloneSet(newset)]
     },
     {
-        sets: [{...cloneSet(newset),scores:[10,5]}, {...cloneSet(newset),scores:[10,5]},{...cloneSet(newset),scores:[5,10]}]
+        sets: [{...cloneSet(newset),scores:[10,5]}, {...cloneSet(newset),scores:[10,5]}]
     },
     {
         sets: [{...cloneSet(newset),scores:[5,12],players:["Narelle","Hidir"]}, {...cloneSet(newset),scores:[21,18],players:["A","B"]},{...cloneSet(newset),scores:[7,18],players:["A","B"]}]
     }]
-}
-*/
+}*/
+
 
 const matchReducer = (state = initialstate, action) => {
 
