@@ -98,7 +98,7 @@ class App extends Component {
       <div className="App">
         <div className="App-results">
           {this.getSetScores(sets)}
-          <button className="newmatch" onClick={this.props.newMatch}>New</button>
+          <button className="newmatch" onClick={() => {this.props.newMatch(); this.props.router.push('/')}}>New</button>
           <div className="score-matchcode">{this.props.matchcode}</div>
           {firstgame && <button className="undoendset" onClick={this.props.undoEndSet}><Icon icon="undo"/></button>}
           <button className="endset" onClick={this.props.endSet}>End set</button>
