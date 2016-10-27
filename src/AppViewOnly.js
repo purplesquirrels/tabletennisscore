@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import PlayerCard from './components/PlayerCard';
+import Icon from './components/Icon';
 import classnames from 'classnames';
 import './AppViewOnly.css';
 import { setMatchCode } from './actions/matchActions';
@@ -13,6 +14,7 @@ class AppViewOnly extends Component {
 
     this.connectToGame = this.connectToGame.bind(this);
     this.getSetScores = this.getSetScores.bind(this);
+    this.getPastMatches = this.getPastMatches.bind(this);
 
     this.state = {
       mirror: false,
@@ -40,29 +42,56 @@ class AppViewOnly extends Component {
     let count = [0, 0];
 
     if (sets.length > 1){
-      sets.forEach((item, index, ) => {
-        count[item.scores[0] > item.scores[1] ? 0 : 1]++;
+      sets.forEach((item, index) => {
+        if (index > 0) count[item.scores[0] > item.scores[1] ? 0 : 1]++;
       });
     }
 
-    let winner = count[0] > count[1] ? 0 : 1;
-
-    let results = sets.map((item, i) => {
-
-      let currentwinner = item.scores[0] > item.scores[1] ? 0 : 1;
-
-      let classes = classnames({
-        "result" : true,
-        "winning" : currentwinner === winner ||  count[0] === count[1]
-      });
-
-      return <div key={i} className={classes}>{item.scores[0] > item.scores[1] ? item.players[0] : item.players[1]}<br/>{item.scores.join(" - ")}</div>
+    let classes = classnames({
+      "result" : true
     });
 
-    results.shift(); // remove the current game
-    results.reverse(); // reverse order
+    let results = [
+      <div key={0} className={classes}><span className="name">{sets[0].players[0]}</span>{count[0]}</div>,
+      <div key={1} className={classes}><span className="name">{sets[0].players[1]}</span>{count[1]}</div>
+    ];
+
+    if (this.props.state.swapped) results.reverse();
 
     return results;
+  }
+
+  getPastMatches(matches) {
+
+    if (matches.length <= 1) return null;
+
+    let m = [];
+
+    matches.forEach((match, index) => {
+        if (index === 0) return;
+
+        let sets = match.sets;
+
+        let p1 = [];
+        let p2 = [];
+
+        sets.forEach((item, index) => {
+          p1.push(<td className={"past-score" + (item.scores[0] > item.scores[1] ? " winner" : "")} key={"1"+index}>{item.scores[0]} </td>);
+          p2.push(<td className={"past-score" + (item.scores[1] > item.scores[0] ? " winner" : "")} key={"2"+index}>{item.scores[1]} </td>);
+        });
+
+        p1.reverse().push(<td key={"a1"}>{sets[0].players[0]} </td>)
+        p2.reverse().push(<td key={"a2"}>{sets[0].players[1]} </td>)
+      
+
+        m.push(<div><h2>Match {matches.length - index}</h2><table key={index}>
+          <tr>{p1.reverse()}</tr>
+          <tr>{p2.reverse()}</tr>
+        </table></div>);
+
+    });
+
+    return (<div className="past-matches">{m}</div>)
   }
 
   render() {
@@ -115,16 +144,18 @@ class AppViewOnly extends Component {
       
     ];
 
+    const pastmatches = this.getPastMatches(this.props.matches);
 
     return (
-      <div className="App">
+      <div className={"App viewonly " + (!!pastmatches ? "has-past-matches" : "")}>
+        {pastmatches}
         <div className="App-results">
           <div className="view-matchcode">{this.props.matchcode}</div>
           {this.getSetScores(sets)}
-          <button className="mirror" onClick={(e) => this.setState({mirror:!this.state.mirror})}>**</button>
         </div>
         <div className={appscoreclasses}>
           {players}
+          <button className="mirror" onClick={(e) => this.setState({mirror:!this.state.mirror})}><Icon icon='swap'/></button>
         </div>
       </div>
     );
@@ -135,7 +166,8 @@ const mapStateToProps = (state) => {
   return {
       matchcode: state.matchdata.matchcode,
       sets: state.matchdata.matches[state.matchdata.currentmatch].sets,
-      state: state.matchdata.matches[state.matchdata.currentmatch].sets[0]
+      state: state.matchdata.matches[state.matchdata.currentmatch].sets[0],
+      matches: state.matchdata.matches
   };
 };
 

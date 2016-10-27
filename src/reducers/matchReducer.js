@@ -11,21 +11,13 @@ const config = {
   mode: Mode.VIEW
 }
 
-//const matches = [];
-//const history = [];
-
 const newset = {
-   // mode: config.mode,
-    //numserves: config.numserves,
     firstload: true,
     players: ["", ""],
-    //results: [],
     scores: [0,0],
     swapped: false,
     initialserve: 0,
-    serving: 0,
-    //history: history,
-    //matchcode: '12345'
+    serving: 0
 };
 
 const initialstate = {
@@ -37,7 +29,23 @@ const initialstate = {
         sets: [cloneSet(newset)]
     }]
 }
-
+/*
+const initialstate = {
+    mode: config.mode,
+    numserves: config.numserves,
+    currentmatch: 0,
+    matchcode: '12345',
+    matches: [{
+        sets: [cloneSet(newset)]
+    },
+    {
+        sets: [{...cloneSet(newset),scores:[10,5]}, {...cloneSet(newset),scores:[10,5]},{...cloneSet(newset),scores:[5,10]}]
+    },
+    {
+        sets: [{...cloneSet(newset),scores:[5,12],players:["Narelle","Hidir"]}, {...cloneSet(newset),scores:[21,18],players:["A","B"]},{...cloneSet(newset),scores:[7,18],players:["A","B"]}]
+    }]
+}
+*/
 
 const matchReducer = (state = initialstate, action) => {
 
@@ -58,6 +66,16 @@ const matchReducer = (state = initialstate, action) => {
 
             notify('send-state', {state: {...state}});
 
+            break;
+        }
+        case "setCurrentMatch": {
+
+            state = {
+                ...state,
+                currentmatch: payload.match
+            };
+
+            notify('send-state', {state: {...state}});
             break;
         }
         case "setMode": {
@@ -89,13 +107,6 @@ const matchReducer = (state = initialstate, action) => {
                 firstload: false
             }
 
-            /*state = {
-                ...state,
-                initialserve: payload.firstserver,
-                serving: state.initialserve,
-                firstload: false
-            };
-*/
             state = {
                 ...state
             }
@@ -108,12 +119,8 @@ const matchReducer = (state = initialstate, action) => {
         }
         case "setPlayerName": {
 
-            //console.log('setPlayerName', payload.player, payload.value);
-
             let cset = {
-                ...state.matches[state.currentmatch].sets[0],
-                initialserve: payload.player,
-                serving: state.initialserve
+                ...state.matches[state.currentmatch].sets[0]
             }
 
             let players = [...cset.players];
@@ -138,12 +145,6 @@ const matchReducer = (state = initialstate, action) => {
                 initialserve: payload.player,
                 serving: state.initialserve
             }
-
-            /*state = {
-                ...state,
-                initialserve: payload.player,
-                serving: state.initialserve
-            };*/
 
             state = {
                 ...state
@@ -234,14 +235,12 @@ const matchReducer = (state = initialstate, action) => {
             break;
         }
         case "endSet" : {
-           // history.push(cloneState(state));
 
             state = {
                 ...state
             }
 
             let nset = cloneSet(state.matches[state.currentmatch].sets[0]);
-            //nset.results = [...nset.results, [...nset.scores]];
             nset.scores = [0, 0];
             nset.swapped = !state.matches[state.currentmatch].sets[0].swapped;
             nset.initialserve = state.matches[state.currentmatch].sets[0].initialserve === 0 ? 1 : 0;
@@ -252,23 +251,11 @@ const matchReducer = (state = initialstate, action) => {
                 ...state.matches[state.currentmatch].sets
             ];
 
-
-           // state = {
-               // ...state,
-                //results: [...state.results, [...state.scores]],
-                //scores: [0, 0],
-                //swapped: !state.swapped,
-                //initialserve: state.initialserve === 0 ? 1 : 0,
-                //serving: state.initialserve
-            //};
-
             notify('send-state', {state: {...state}});
 
             break;
         }
         case "newMatch" : {
-
-            //window.open(window.location);
 
             state = {
                 ...state,
@@ -279,8 +266,6 @@ const matchReducer = (state = initialstate, action) => {
 
             notify('send-state', {state: {...state}});
 
-
-
             break;
         }
         default:
@@ -290,16 +275,10 @@ const matchReducer = (state = initialstate, action) => {
 
 export default matchReducer;
 
-/*export function getHistory() {
-  return history;
-}*/
-
-//export function cloneState(state) {
 export function cloneSet(set) {
   return {
     ...set,
     players : [...set.players],
-    //results : [...set.results.map(item => [...item])],
     scores : [...set.scores]
   };
 }

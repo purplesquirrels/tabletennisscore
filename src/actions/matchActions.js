@@ -10,7 +10,15 @@ export function setMode(mode) {
     return {
         type: "setMode",
         payload: {
-        	mode
+            mode
+        }
+    };
+}
+export function setCurrentMatch(match) {
+    return {
+        type: "setCurrentMatch",
+        payload: {
+        	match
         }
     };
 }

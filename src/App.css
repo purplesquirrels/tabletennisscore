@@ -19,6 +19,8 @@ html, body, #root, .App {
   padding: 2vh;
   color: white;
   position: relative;
+
+  transition: width 0.5s;
 }
 
 .result {
@@ -51,6 +53,9 @@ html, body, #root, .App {
   border-radius: 100px;
   text-transform: uppercase;
 }
+.endset:focus {
+  outline: none;
+}
 .undoendset {
   position: absolute;
   top: 50%;
@@ -64,6 +69,10 @@ html, body, #root, .App {
   -webkit-appearance: none;
   border-radius: 100px;
   text-transform: uppercase;
+  color: #FFF;
+}
+.undoendset:focus {
+  outline: none;
 }
 .newmatch {
   position: absolute;
@@ -80,11 +89,23 @@ html, body, #root, .App {
   text-transform: uppercase;
 }
 
+.newmatch:focus {
+  outline: none;
+}
+
+.firstset {
+    font-size: 2rem;
+    color: #444;
+    text-transform: uppercase;
+    padding-top: 5vh;
+}
 .App-score {
   flex: 1 1 auto;
   margin: 5vh 0;
   display: flex;
   justify-content: space-around;
+
+  transition: width 0.5s;
 }
 /*
 .App-score.swapends {

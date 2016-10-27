@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import PlayerCard from './components/PlayerCard';
+import Icon from './components/Icon';
 import * as Actions from "./actions/matchActions";
 import classnames from 'classnames';
 import './App.css';
@@ -25,8 +26,8 @@ class App extends Component {
     let count = [0, 0];
 
     if (sets.length > 1){
-      sets.forEach((item, index, ) => {
-        count[item.scores[0] > item.scores[1] ? 0 : 1]++;
+      sets.forEach((item, index) => {
+        if (index > 0) count[item.scores[0] > item.scores[1] ? 0 : 1]++;
       });
     }
 
@@ -46,14 +47,16 @@ class App extends Component {
 
     results.shift(); // remove the current game
 
-    return results;
+    if (results.length) return results;
+
+    return <div key="empty" className="firstset">First set</div>;
   }
 
   render() {
 
     const { state, sets } = this.props;
 
-    const firstgame = state.scores[0] + state.scores[1] === 0 && sets.length > 0;
+    const firstgame = state.scores[0] + state.scores[1] === 0 && sets.length > 1;
 
 
     let player1classes = {
@@ -97,7 +100,7 @@ class App extends Component {
           {this.getSetScores(sets)}
           <button className="newmatch" onClick={this.props.newMatch}>New</button>
           <div className="score-matchcode">{this.props.matchcode}</div>
-          {firstgame && <button className="undoendset" onClick={this.props.undoEndSet}>Undo</button>}
+          {firstgame && <button className="undoendset" onClick={this.props.undoEndSet}><Icon icon="undo"/></button>}
           <button className="endset" onClick={this.props.endSet}>End set</button>
         </div>
         <div className={appscoreclasses}>
@@ -118,6 +121,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        setCurrentMatch: (match) =>  dispatch(Actions.setCurrentMatch(match)),
         setPlayerName: (player, value) =>  dispatch(Actions.setPlayerName(player, value)),
         startMatch: (firstserver) =>  dispatch(Actions.startMatch(firstserver)),
         setInitialServe: (player) =>  dispatch(Actions.setInitialServe(player)),

@@ -7,7 +7,7 @@
   justify-content: center;
   width: 40vw;
   min-height: 100%;
-  background: #EFEFEF;
+  background: #FFF;
   margin: 0 1vw; 
   font-size: 10rem;
   color: #333;
@@ -16,9 +16,8 @@
   transform: translateX(0);
   backface-visibility: hidden;
   transition: background-color 0.2s, transform 0.75s;
-  transition-delay: 0.1s;
+  //transition-delay: 0.1s;
 }
-
 .swapends .player:nth-of-type(1) {
   transform: translateX(125%)
 }
@@ -44,6 +43,10 @@
   border-radius: 50%;
   width: 4rem;
   height: 4rem;
+}
+
+.removescore:focus {
+  outline: none;
 }
 
 .player.serving {

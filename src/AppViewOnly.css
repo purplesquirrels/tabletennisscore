@@ -1,3 +1,55 @@
+.has-past-matches.viewonly.App {
+  align-items: flex-end;
+}
+.has-past-matches.viewonly .App-results,
+.has-past-matches.viewonly .App-score {
+  width: 80vw;
+}
+
+.viewonly .past-matches {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 20vw;
+  background: #FFF;
+  overflow: hidden;
+}
+
+.past-matches h2 {
+  margin-bottom: 0;
+}
+.past-matches table {
+    width: 100%;
+    padding: 1em;
+    font-size: 1.4rem;
+}
+
+.past-matches td {
+  border: 1px solid #FFF;
+  background: #333;
+  color: #CCC;
+  padding: 0.5em 0.1em;
+}
+
+
+td.past-score {
+  width: 16%;
+}
+td.winner {
+  background: #6de86c;
+  color: #222;
+}
+
+.viewonly .past-matches:after {
+  content: "";
+  width: 20px;
+  height: 100%;
+  box-shadow: 0 0 50px rgba(0,0,0,0.25);
+  position: absolute;
+  left: 100%;
+  top: 0;
+}
 
 .entercode {
   width: 100%;
@@ -34,18 +86,21 @@
 
 .mirror {
   position: absolute;
-  top: 50%;
-  margin-top: -20px;
-  margin-right: 10px;
-  right: 0;
+  bottom: 1em;
+  left: 50%;
+  margin-left: -20px;
   width: 40px;
   height: 40px;
-  background: #444;
+  background: #FFF;
   border: none;
   -webkit-appearance: none;
   border-radius: 100px;
   text-transform: uppercase;
 }
+.mirror:focus {
+  outline: none;
+}
+
 
 .view-matchcode {
 
@@ -63,4 +118,38 @@
   color: #CCC;
   padding: 0.4em;
 
+}
+
+.viewonly .result .name {
+  font-size:0.9rem;
+  position: absolute;
+  top: 0.7em;
+  width: 100%;
+  text-transform: uppercase;
+}
+.viewonly .result {
+  font-size: 5rem;
+  position: relative;
+  padding: 0.2em 0.6em 0;
+}
+
+.viewonly .player {
+  border: 20px solid #FFF;
+}
+.viewonly .player.serving {
+  border: 20px solid #6de86c;
+  background: #FFF;
+}
+.viewonly .playername {
+  font-size: 2.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5em 0.25em;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}
+.viewonly .serving .playername {
+  color: #6de86c;
 }
