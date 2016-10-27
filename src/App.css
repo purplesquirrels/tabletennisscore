@@ -72,7 +72,7 @@ html, body, #root, .App {
   margin-left: 10px;
   left: 0;
   width: 80px;
-  height: 80px;
+  height: 40px;
   background: #797979;
   border: none;
   -webkit-appearance: none;
@@ -90,3 +90,17 @@ html, body, #root, .App {
 .App-score.swapends {
   flex-direction: row-reverse;
 }*/
+
+.score-matchcode {
+  position: absolute;
+  top: 51%;
+  margin-left: 10px;
+  left: 0;
+  width: 80px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-family: monospace;
+  text-align: center;
+  color: #CCC;
+  padding: 0.4em;
+}

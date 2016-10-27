@@ -5,7 +5,7 @@ import match from "../reducers/matchReducer";
 
 export default createStore(
     combineReducers({
-        match
+        matchdata: match
     }),
     {}//,
     //applyMiddleware(logger())

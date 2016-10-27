@@ -15,6 +15,7 @@ class AppViewOnly extends Component {
     this.getSetScores = this.getSetScores.bind(this);
 
     this.state = {
+      mirror: false,
       isConnected: false,
       matchcode: ""
     }
@@ -34,34 +35,39 @@ class AppViewOnly extends Component {
     notify('join-match', {code: this.state.matchcode, room: this.state.matchcode});
   }
 
-  getSetScores(state) {
+  getSetScores(sets) {
 
     let count = [0, 0];
 
-    if (state.results.length){
-      state.results.forEach((item, index, ) => {
-        count[item[0] > item[1] ? 0 : 1]++;
+    if (sets.length > 1){
+      sets.forEach((item, index, ) => {
+        count[item.scores[0] > item.scores[1] ? 0 : 1]++;
       });
     }
 
     let winner = count[0] > count[1] ? 0 : 1;
 
-    return state.results.map((item, i) => {
+    let results = sets.map((item, i) => {
 
-      let currentwinner = item[0] > item[1] ? 0 : 1;
+      let currentwinner = item.scores[0] > item.scores[1] ? 0 : 1;
 
       let classes = classnames({
         "result" : true,
         "winning" : currentwinner === winner ||  count[0] === count[1]
       });
 
-      return <div key={i} className={classes}>{item[0] > item[1] ? state.players[0] : state.players[1]}<br/>{item.join(" - ")}</div>
+      return <div key={i} className={classes}>{item.scores[0] > item.scores[1] ? item.players[0] : item.players[1]}<br/>{item.scores.join(" - ")}</div>
     });
+
+    results.shift(); // remove the current game
+    results.reverse(); // reverse order
+
+    return results;
   }
 
   render() {
 
-    const { state } = this.props;
+    const { state, sets } = this.props;
 
    
     if (!this.state.isConnected) {
@@ -87,7 +93,8 @@ class AppViewOnly extends Component {
 
     let appscoreclasses = classnames({
       "App-score" : true,
-      "swapends" : state.swapped
+      "swapends" : state.swapped,
+      "mirrored" : this.state.mirror
     });
 
     let players = [
@@ -108,10 +115,13 @@ class AppViewOnly extends Component {
       
     ];
 
+
     return (
       <div className="App">
         <div className="App-results">
-          {this.getSetScores(state)}
+          <div className="view-matchcode">{this.props.matchcode}</div>
+          {this.getSetScores(sets)}
+          <button className="mirror" onClick={(e) => this.setState({mirror:!this.state.mirror})}>**</button>
         </div>
         <div className={appscoreclasses}>
           {players}
@@ -123,8 +133,9 @@ class AppViewOnly extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      state: state.match,
-      history: state.match.history
+      matchcode: state.matchdata.matchcode,
+      sets: state.matchdata.matches[state.matchdata.currentmatch].sets,
+      state: state.matchdata.matches[state.matchdata.currentmatch].sets[0]
   };
 };
 

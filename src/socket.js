@@ -12,22 +12,22 @@ export const notify = (message, payload) => {
 
 	var state = store.getState();
 
-	console.log('notify -> mode', state.match.mode);
+	//console.log('notify -> mode', state.matchdata.mode);
 
-	if (socket && (state.match.mode === "broadcast" || message === "join-match")){
+	if (socket && (state.matchdata.mode === "broadcast" || message === "join-match")){
 		/*if (!payload.room) {
 			payload.room = state.match.matchcode;
 		}*/
 
-		console.log('notify', message, {...payload, room: state.match.matchcode});
+		//console.log('notify', message, {...payload, room: state.matchdata.matches[state.matchdata.currentmatch].matchcode});
 
 		//socket.broadcast.to(state.match.matchcode).emit(message, JSON.stringify(payload));
-      	socket.emit(message, JSON.stringify({...payload, room: state.match.matchcode}));
+      	socket.emit(message, JSON.stringify({...payload, room: state.matchdata.matchcode}));
     }
 }
 
 function setupSocket() {
-	socket = io('localhost:3000');
+	socket = io('192.168.1.84:3000');
 
 	socket.on('connect', function(){
 		console.log("connected");
@@ -55,9 +55,10 @@ function setupSocket() {
 
 		let state = store.getState();
 
-		if (state.match.mode === "view") {
+		if (state.matchdata.mode === "view") {
 
 			data = JSON.parse(data);
+			console.log("new state", data);
 			data.state.mode = "view";
 
 			store.dispatch({
@@ -75,7 +76,7 @@ function setupSocket() {
 
 		let state = store.getState();
 
-		if (state.match.mode === "broadcast") {
+		if (state.matchdata.mode === "broadcast") {
 		    console.log('state-requested');
 		    console.log(data);
 		    console.log(store.getState());

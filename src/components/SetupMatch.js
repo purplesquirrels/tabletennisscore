@@ -24,17 +24,20 @@ class SetupMatch extends Component {
       </div>
       <p>Choose who is serving first to start match</p>
       <div className="serve-select">
-        <button disabled={disablestart} onClick={() => {this.props.startMatch(0);this.props.setMode('broadcast');router.push('/broadcast')}}>{players[0] || "Enter a player 1 name"}</button>
-        <button disabled={disablestart} onClick={() => {this.props.startMatch(1);this.props.setMode('broadcast');router.push('/broadcast')}}>{players[1] || "Enter a player 2 name"}</button>
+        <button disabled={disablestart} onClick={() => {this.props.setMode('broadcast');this.props.startMatch(0);router.push('/broadcast')}}>{players[0] || "Enter a player 1 name"}</button>
+        <button disabled={disablestart} onClick={() => {this.props.setMode('broadcast');this.props.startMatch(1);router.push('/broadcast')}}>{players[1] || "Enter a player 2 name"}</button>
       </div>
+      <div className="matchcode">Match code: {this.props.matchcode}</div>
     </div>)
 
   }
 }
 
 const mapStateToProps = (state) => {
+
   return {
-      players: state.match.players//,
+      matchcode: state.matchdata.matchcode,
+      players: state.matchdata.matches[state.matchdata.currentmatch].sets[0].players//,
       //history: state.history
   };
 };

@@ -19,3 +19,48 @@
   text-align: center;
   display: block;
 }
+
+.App-score.mirrored {
+  flex-direction: row-reverse;
+}
+
+
+.App-score.mirrored.swapends .player:nth-of-type(1) {
+  transform: translateX(-125%);
+}
+.App-score.mirrored.swapends .player:nth-of-type(2) {
+  transform: translateX(125%);
+}
+
+.mirror {
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+  margin-right: 10px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: #444;
+  border: none;
+  -webkit-appearance: none;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+
+.view-matchcode {
+
+  display: none;
+
+  position: absolute;
+  top: 0;
+  margin-left: 0;
+  left: 0;
+  width: 80px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-family: monospace;
+  text-align: left;
+  color: #CCC;
+  padding: 0.4em;
+
+}
