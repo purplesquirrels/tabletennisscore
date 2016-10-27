@@ -1,29 +1,52 @@
-.has-past-matches.viewonly.App {
+/*.has-past-matches.viewonly.App {
   align-items: flex-end;
 }
 .has-past-matches.viewonly .App-results,
 .has-past-matches.viewonly .App-score {
   width: 80vw;
   position: relative;
+}*/
+
+.viewonly.App {
+  align-items: flex-end;
 }
+.viewonly .App-results,
+.viewonly .App-score {
+  width: calc(100% - 350px);
+  position: relative;
+}
+
 
 .viewonly .past-matches {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  width: 20vw;
+  width: 350px;
   background: #FFF;
   overflow: hidden;
 }
 
+.past-matches h1 {
+    color: #333;
+    font-size: 0.8em;
+    padding: 0.8em;
+    line-height: 1;
+    text-transform: uppercase;
+}
 .past-matches h2 {
   margin-bottom: 0;
 }
 .past-matches table {
     width: 100%;
     padding: 1em;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+}
+
+.past-matches .empty-message {
+  padding: 1em;
+  color: #CCC;
+  font-size: 1.2em;
 }
 
 .past-matches td {
@@ -78,12 +101,6 @@ td.winner {
 }
 
 
-.App-score.mirrored.swapends .player:nth-of-type(1) {
-  transform: translateX(-125%);
-}
-.App-score.mirrored.swapends .player:nth-of-type(2) {
-  transform: translateX(125%);
-}
 
 .mirror {
   position: absolute;
@@ -153,4 +170,26 @@ td.winner {
 }
 .viewonly .serving .playername {
   color: #6de86c;
+}
+
+
+.App-score.mirrored.swapends .player:nth-of-type(1) {
+  transform: translateX(-125%);
+}
+.App-score.mirrored.swapends .player:nth-of-type(2) {
+  transform: translateX(125%);
+}
+
+.viewonly .swapends .player:nth-of-type(1) {
+  transform: translateX(105%)
+}
+.viewonly .swapends .player:nth-of-type(2) {
+  transform: translateX(-105%)
+}
+
+.viewonly .App-score.mirrored.swapends .player:nth-of-type(1) {
+  transform: translateX(-105%);
+}
+.viewonly .App-score.mirrored.swapends .player:nth-of-type(2) {
+  transform: translateX(105%);
 }
