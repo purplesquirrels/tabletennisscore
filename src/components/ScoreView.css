@@ -12,8 +12,8 @@
 }
 .viewonly .App-results,
 .viewonly .App-score {
-  width: calc(100% - 350px);
-  position: relative;
+  /*width: calc(100% - 350px);
+  position: relative;*/
 }
 
 
@@ -155,7 +155,7 @@ td.winner {
   border: 20px solid #FFF;
 }
 .viewonly .player.serving {
-  border: 20px solid #6de86c;
+  /*border: 20px solid #6de86c;*/
   background: #FFF;
 }
 .viewonly .playername {
@@ -169,7 +169,7 @@ td.winner {
   text-transform: uppercase;
 }
 .viewonly .serving .playername {
-  color: #6de86c;
+  /*color: #6de86c;*/
 }
 
 

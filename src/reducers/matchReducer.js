@@ -1,50 +1,137 @@
 import { notify } from '../socket';
+import { AppMode } from '../constants/AppMode';
+import { MatchType } from '../constants/MatchType';
 
-const Mode = {
-  VIEW : "view",
-  BROADCAST : "broadcast",
-  SANDBOX : "sandbox"
-}
-
-const config = {
+const ConfigDefaults = {
   numserves: 5,
-  mode: Mode.VIEW
+  playto: 21,
+  matchtype: MatchType.SINGLES,
+  mode: AppMode.VIEW
 }
 
-const newset = {
+const cloneSet = (set) => {
+  return {
+    ...set,
+    players : [...set.players],
+    playerswap : [...set.playerswap],
+    scores : [...set.scores]
+  };
+}
+
+
+const blankset = {
     firstload: true,
     players: ["", ""],
+    playerswap: [false, false],
     scores: [0,0],
-    swapped: false,
+    swapends: false,
     initialserve: 0,
     serving: 0
 };
 
+/*
+const blankdoublesset = {
+    firstload: true,
+    players: ["", "", "", ""], // team 1 p1,p2 , team 2 p1,p2,
+    playerswap: [false, false], // team 1 swapped, team 2 swapped
+    scores: [0,0],
+    swapends: false,
+    initialserve: 0,
+    serving: 0
+};
+*/
 const initialstate = {
-    mode: config.mode,
-    numserves: config.numserves,
+    mode: ConfigDefaults.mode,
+    numserves: ConfigDefaults.numserves,
+    playto: ConfigDefaults.playto,
+    matchtype: ConfigDefaults.matchtype,
     currentmatch: 0,
     matchcode: '12345',
     matches: [{
-        sets: [cloneSet(newset)]
+        started: false,
+        sets: [cloneSet(blankset)]
     }]
 }
 
 /*const initialstate = {
-    mode: config.mode,
-    numserves: config.numserves,
+    mode: ConfigDefaults.mode,
+    numserves: ConfigDefaults.numserves,
     currentmatch: 0,
     matchcode: '12345',
     matches: [{
-        sets: [cloneSet(newset)]
+        sets: [cloneSet(blankset)]
     },
     {
-        sets: [{...cloneSet(newset),scores:[10,5]}, {...cloneSet(newset),scores:[10,5]}]
+        sets: [{...cloneSet(blankset),scores:[10,5]}, {...cloneSet(blankset),scores:[10,5]}]
     },
     {
-        sets: [{...cloneSet(newset),scores:[5,12],players:["Narelle","Hidir"]}, {...cloneSet(newset),scores:[21,18],players:["A","B"]},{...cloneSet(newset),scores:[7,18],players:["A","B"]}]
+        sets: [{...cloneSet(blankset),scores:[5,12],players:["Narelle","Hidir"]}, {...cloneSet(blankset),scores:[21,18],players:["A","B"]},{...cloneSet(blankset),scores:[7,18],players:["A","B"]}]
     }]
 }*/
+
+
+
+const determineService = (matchtype, numserves, playto, initialserver, scores) => {
+
+    let server = initialserver;
+    let totalscore = scores.reduce((a, b) => a + b);
+    let playerswap = [false, false];
+
+    // not started - return initial server
+    if (totalscore === 0) return {
+        server,
+        playerswap
+    };
+
+    let services = Math.ceil(totalscore / numserves);
+
+    // if whole number then score is at service and need to switch serve
+    if (totalscore % numserves === 0) services += 1;
+
+    // check if deuce
+    if (scores[0] >= playto-1 && scores[1] >= playto-1 && totalscore >= ((playto-1) * 2)) {
+        services = totalscore - ((playto-1) * 2) + 1;
+    }
+
+    if (matchtype === MatchType.SINGLES) {
+        if (services % 2 === 0) {
+            // second player serves on every second service
+            server = initialserver === 0 ? 1 : 0;
+        }
+        else {
+            // first player serves on alternate service
+            server = initialserver;
+        }
+    }
+    else if (matchtype === MatchType.DOUBLES) {
+
+        switch (services % 4) {
+            case 1 : // first team first server (initialserver)
+                server = initialserver;
+                playerswap = [false, false];
+                break;
+            case 2 : // second team first server
+                server = initialserver === 0 ? 2 : 0;
+                playerswap = initialserver === 0 ? [true, false] : [false, true];
+                break;
+            case 3 : // first team second server
+                server = initialserver === 0 ? 1 : 3;
+                playerswap = [true, true];
+                break;
+            case 0 : // second team second server
+                server = initialserver === 0 ? 3 : 1;
+                playerswap = initialserver === 0 ? [false, true] : [true, false];
+                break;
+            default:
+        }
+
+    }
+
+    return {
+        server,
+        playerswap
+    };
+}
 
 
 const matchReducer = (state = initialstate, action) => {
@@ -73,6 +160,27 @@ const matchReducer = (state = initialstate, action) => {
             state = {
                 ...state,
                 currentmatch: payload.match
+            };
+
+            notify('send-state', {state: {...state}});
+            break;
+        }
+        case "setPlayTo": {
+
+            state = {
+                ...state,
+                playto: payload.playto,
+                numserves: payload.numserves
+            };
+
+            notify('send-state', {state: {...state}});
+            break;
+        }
+        case "setMatchType": {
+
+            state = {
+                ...state,
+                matchtype: payload.matchtype
             };
 
             notify('send-state', {state: {...state}});
@@ -110,6 +218,11 @@ const matchReducer = (state = initialstate, action) => {
             state = {
                 ...state
             }
+
+            state.matches[state.currentmatch] = {
+                ...state.matches[state.currentmatch],
+                started: true
+            };
 
             state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
             state.matches[state.currentmatch].sets[0] = cset;
@@ -163,14 +276,14 @@ const matchReducer = (state = initialstate, action) => {
 
             scores[payload.player]++;
 
+            let service = determineService(state.matchtype, state.numserves, state.playto, cset.initialserve, scores);
+
             cset = {
                 ...cset,
-                scores: scores
+                scores: scores,
+                serving: service.server,
+                playerswap: service.playerswap
             };
-
-            if ((cset.scores[0] + cset.scores[1]) % state.numserves === 0) {
-                cset.serving = cset.serving === 0 ? 1 : 0;
-            }
 
             state = {
                 ...state
@@ -189,22 +302,18 @@ const matchReducer = (state = initialstate, action) => {
 
             if (cset.scores[payload.player] > 0) {
 
-                let wasOnService = (cset.scores[0] + cset.scores[1]) % state.numserves === 0;
                 let scores = [...cset.scores];
 
                 scores[payload.player]--;
 
+                let service = determineService(state.matchtype, state.numserves, state.playto, cset.initialserve, scores);
+
                 cset = {
                     ...cset,
-                    scores: scores
+                    scores: scores,
+                    serving: service.server,
+                    playerswap: service.playerswap
                 };
-
-                if ((cset.scores[0] + cset.scores[1]) === 0) {
-                    cset.serving = cset.initialserve;
-                }
-                else if (wasOnService) {
-                    cset.serving = cset.serving === 0 ? 1 : 0;
-                }
 
                 state = {
                     ...state
@@ -212,9 +321,9 @@ const matchReducer = (state = initialstate, action) => {
 
                 state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
                 state.matches[state.currentmatch].sets[0] = cset;
+                
+                notify('send-state', {state: {...state}});
             }
-
-            notify('send-state', {state: {...state}});
 
             break;
         }
@@ -242,8 +351,19 @@ const matchReducer = (state = initialstate, action) => {
 
             let nset = cloneSet(state.matches[state.currentmatch].sets[0]);
             nset.scores = [0, 0];
-            nset.swapped = !state.matches[state.currentmatch].sets[0].swapped;
-            nset.initialserve = state.matches[state.currentmatch].sets[0].initialserve === 0 ? 1 : 0;
+            nset.playerswap = [false, false];
+            nset.swapends = !state.matches[state.currentmatch].sets[0].swapends;
+
+            switch (state.matchtype) {
+                case MatchType.SINGLES :
+                    nset.initialserve = state.matches[state.currentmatch].sets[0].initialserve === 0 ? 1 : 0;
+                    break;
+                case MatchType.DOUBLES :
+                    nset.initialserve = state.matches[state.currentmatch].sets[0].initialserve === 0 ? 2 : 0;
+                    break;
+                default:
+            }
+            
             nset.serving = nset.initialserve;
 
             state.matches[state.currentmatch].sets = [
@@ -255,12 +375,29 @@ const matchReducer = (state = initialstate, action) => {
 
             break;
         }
+        case "cancelMatch" : {
+
+            let matches = [...state.matches];
+            matches.shift();
+            matches.unshift({
+                sets: [cloneSet(blankset)]
+            });
+
+            state = {
+                ...state,
+                matches: matches
+            }
+
+            notify('send-state', {state: {...state}});
+
+            break;
+        }
         case "newMatch" : {
 
             state = {
                 ...state,
                 matches: [{
-                    sets: [cloneSet(newset)]
+                    sets: [cloneSet(blankset)]
                 }, ...state.matches]
             }
 
@@ -274,12 +411,3 @@ const matchReducer = (state = initialstate, action) => {
 };
 
 export default matchReducer;
-
-export function cloneSet(set) {
-  return {
-    ...set,
-    players : [...set.players],
-    scores : [...set.scores]
-  };
-}
-

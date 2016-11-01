@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import PlayerCard from './components/PlayerCard';
-import Icon from './components/Icon';
+import PlayerCard from './PlayerCard';
+import Icon from './Icon';
 import classnames from 'classnames';
-import './AppViewOnly.css';
-import { setMatchCode } from './actions/matchActions';
-import { notify } from './socket';
+import './ScoreView.css';
+import { setMatchCode } from '../actions/matchActions';
+import { notify } from '../socket';
+import { MatchType } from '../constants/MatchType';
 
-class AppViewOnly extends Component {
+class ScoreView extends Component {
 
   constructor(props) {
     super(props);
@@ -37,7 +38,7 @@ class AppViewOnly extends Component {
     notify('join-match', {code: this.state.matchcode, room: this.state.matchcode});
   }
 
-  getSetScores(sets) {
+  getSetScores(matchtype, sets) {
 
     let count = [0, 0];
 
@@ -51,12 +52,28 @@ class AppViewOnly extends Component {
       "result" : true
     });
 
-    let results = [
+    /*let results = [
       <div key={0} className={classes}><span className="name">{sets[0].players[0]}</span>{count[0]}</div>,
       <div key={1} className={classes}><span className="name">{sets[0].players[1]}</span>{count[1]}</div>
-    ];
+    ];*/
 
-    if (this.props.state.swapped) results.reverse();
+    let results = [];
+
+    switch (matchtype) {
+      case MatchType.SINGLES :
+        results = [
+          <div key={0} className={classes}><span className="name">{sets[0].players[0]}</span>{count[0]}</div>,
+          <div key={1} className={classes}><span className="name">{sets[0].players[1]}</span>{count[1]}</div>
+        ];
+      case MatchType.DOUBLES :
+        results = [
+          <div key={0} className={classes}><span className="name">{`${sets[0].players[0]||"-"}/${sets[0].players[1]||"-"}`}</span>{count[0]}</div>,
+          <div key={1} className={classes}><span className="name">{`${sets[0].players[2]||"-"}/${sets[0].players[3]||"-"}`}</span>{count[1]}</div>
+        ];
+      default:
+    }
+
+    if (this.props.state.swapends) results.reverse();
 
     return results;
   }
@@ -81,6 +98,8 @@ class AppViewOnly extends Component {
           p2.push(<td className={"past-score" + (item.scores[1] > item.scores[0] ? " winner" : "")} key={"2"+index}>{item.scores[1]}</td>);
         });
 
+        if (!p1.length && !p2.length) return;
+
         if (p1.length === 2) p1.unshift(<td className={"past-score"} key={"1bl"}>-</td>);
         if (p2.length === 2) p2.unshift(<td className={"past-score"} key={"2bl"}>-</td>);
 
@@ -100,7 +119,7 @@ class AppViewOnly extends Component {
 
   render() {
 
-    const { state, sets } = this.props;
+    const { state, sets, matchtype } = this.props;
 
    
     if (!this.state.isConnected) {
@@ -114,33 +133,46 @@ class AppViewOnly extends Component {
       </div>)
     }
 
+    
     let player1classes = {
       "player1" : true,
-      "serving" : state.serving === 0,
+      "swapped" : state.playerswap[0],
+      "serving" : matchtype === "singles" ? state.serving === 0 : state.serving === 0 || state.serving === 1
     };
 
     let player2classes = {
       "player2" : true,
-      "serving" : state.serving === 1
+      "swapped" : state.playerswap[1],
+      "serving" : matchtype === "singles" ? state.serving === 1 : state.serving === 2 || state.serving === 3
     };
+
 
     let appscoreclasses = classnames({
       "App-score" : true,
-      "swapends" : state.swapped,
-      "mirrored" : this.state.mirror
+      "swapends" : state.swapends,
+      "mirrored" : this.state.mirror,
+      "doubles" : matchtype === "doubles",
+      "singles" : matchtype === "singles"
     });
+
+
+    let playernames1 = matchtype === "doubles" ? [state.players[0], state.players[1]] : [state.players[0]];
+    let playernames2 = matchtype === "doubles" ? [state.players[2], state.players[3]] : [state.players[1]];
+
 
     let players = [
       <PlayerCard 
         key={0}
-        playername={state.players[0]}
+        playername={playernames1}
+        swapends={state.swapends}
         scores={state.scores[0]}
         classes={player1classes}
         onAddScore={() => {}}
         onRemoveScore={(e) => {}} />,
       <PlayerCard 
         key={1}
-        playername={state.players[1]}
+        playername={playernames2}
+        swapends={state.swapends}
         scores={state.scores[1]}
         classes={player2classes}
         onAddScore={() => {}}
@@ -152,10 +184,10 @@ class AppViewOnly extends Component {
 
     return (
       <div className={"App viewonly " + (!!pastmatches ? "has-past-matches" : "")}>
-        {pastmatches}
+        {/*pastmatches*/}
         <div className="App-results">
           <div className="view-matchcode">{this.props.matchcode}</div>
-          {this.getSetScores(sets)}
+          {this.getSetScores(matchtype, sets)}
         </div>
         <div className={appscoreclasses}>
           {players}
@@ -169,6 +201,7 @@ class AppViewOnly extends Component {
 const mapStateToProps = (state) => {
   return {
       matchcode: state.matchdata.matchcode,
+      matchtype: state.matchdata.matchtype,
       sets: state.matchdata.matches[state.matchdata.currentmatch].sets,
       state: state.matchdata.matches[state.matchdata.currentmatch].sets[0],
       matches: state.matchdata.matches
@@ -181,4 +214,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppViewOnly);
+export default connect(mapStateToProps, mapDispatchToProps)(ScoreView);

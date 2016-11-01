@@ -6,11 +6,28 @@ export function setMatchCode(code) {
         }
     };
 }
+export function setMatchType(matchtype) {
+    return {
+        type: "setMatchType",
+        payload: {
+            matchtype
+        }
+    };
+}
 export function setMode(mode) {
     return {
         type: "setMode",
         payload: {
             mode
+        }
+    };
+}
+export function setPlayTo(playto, numserves) {
+    return {
+        type: "setPlayTo",
+        payload: {
+            playto,
+            numserves
         }
     };
 }
@@ -79,6 +96,13 @@ export function undoEndSet() {
 export function endSet() {
     return {
         type: "endSet",
+        payload: {}
+    };
+}
+
+export function cancelMatch() {
+    return {
+        type: "cancelMatch",
         payload: {}
     };
 }

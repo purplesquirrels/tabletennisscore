@@ -17,7 +17,22 @@
   }
 }
 
-.firstload input {
+.firstload input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+}
+.firstload input[type='radio'] + label {
+  padding: 1em;
+  margin: 0 0.25em;
+  flex: 1 1 50%;
+  background: transparent;
+  border: 1px solid #CCC;
+}
+.firstload input[type='radio']:checked + label {
+  background: #6de86c;
+}
+
+.firstload input[type='text'] {
   padding: 1em;
   margin: 0 0.25em;
   flex: 1 1 50%;
@@ -27,12 +42,22 @@
   min-width: 0;
 }
 
+.match-input,
+.team-titles,
 .name-input,
 .serve-select {
   width: 100%;
   display: flex;
 }
 
+.team-group input {
+    width: 100%;
+}
+
+.team-titles .title {
+  flex: 1 1 50%;
+  margin: 0;
+}
 
 .serve-select button {
   flex: 1 1 50%;

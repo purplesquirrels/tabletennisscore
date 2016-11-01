@@ -36,20 +36,106 @@
   font-size: 1.5rem;
   position: absolute;
   bottom: -0.9rem;
-  right: -0.9rem;
+  right: 50%;
   padding: 0 0.5em;
   border: 3px solid #FFF;
   background-color: #f75555;
   border-radius: 50%;
   width: 4rem;
   height: 4rem;
+  margin-right: -2rem;
 }
 
 .removescore:focus {
   outline: none;
 }
 
-.player.serving {
+.singles .player.serving {
   background: #6de86c;
   color: #333;
+}
+
+.doubles .player .playername {
+  transform: translateY(0);
+  transition: transform 0.5s;
+}
+.doubles .player2 .playername {
+  left: auto;
+  right: 0;
+}
+.doubles .player1 .player-a {
+    bottom: 0;
+    top: auto;
+}
+
+.doubles .player2 .player-b {
+    bottom: 0;
+    top: auto;
+}
+
+.doubles.swapends .player1 .playername {
+  left: auto;
+  right: 0;
+}
+.doubles.swapends .player2 .playername {
+  left: 0;
+  right: auto;
+}
+
+.doubles.swapends .player1 .player-a {
+  bottom: auto;
+  top: 0;
+}
+.doubles.swapends .player1 .player-b {
+  bottom: 0;
+  top: auto;
+}
+
+.doubles.swapends .player2 .player-a {
+  bottom: 0;
+  top: auto;
+}
+.doubles.swapends .player2 .player-b {
+  bottom: auto;
+  top: 0;
+}
+
+.doubles .player1.swapped .player-a {
+  transform: translateY(calc(-70vh + 100%));
+}
+.doubles .player1.swapped .player-b {
+  transform: translateY(calc(70vh - 100%));
+}
+.doubles .player2.swapped .player-a {
+  transform: translateY(calc(70vh - 100%));
+}
+.doubles .player2.swapped .player-b {
+  transform: translateY(calc(-70vh + 100%));
+}
+
+
+.doubles.swapends .player1.swapped .player-a {
+  transform: translateY(calc(70vh - 100%));
+}
+.doubles.swapends .player1.swapped .player-b {
+  transform: translateY(calc(-70vh + 100%));
+}
+.doubles.swapends .player2.swapped .player-a {
+  transform: translateY(calc(-70vh + 100%));
+}
+.doubles.swapends .player2.swapped .player-b {
+  transform: translateY(calc(70vh - 100%));
+}
+
+.doubles .player1.serving:not(.swapped) .player-a {
+  color: #6de86c;
+}
+.doubles .player1.serving.swapped .player-b {
+  color: #6de86c;
+}
+.doubles .player2.serving:not(.swapped) .player-a {
+  color: #6de86c;
+}
+.doubles .player2.serving.swapped .player-b {
+  color: #6de86c;
 }
