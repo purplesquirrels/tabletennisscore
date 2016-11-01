@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import * as Actions from "../actions/matchActions";
 //import classnames from 'classnames';
 import './SetupMatch.css';
+import { MatchType } from '../constants/MatchType';
 
 
 class SetupMatch extends Component {
@@ -16,12 +17,12 @@ class SetupMatch extends Component {
   getPlayerInputs(matchtype, players) {
 
     switch (matchtype) {
-      case "singles" :
+      case MatchType.SINGLES :
         return (<div className="name-input">
                   <input type="text" value={players[0]} onChange={(e) => this.props.setPlayerName(0, e.currentTarget.value)} placeholder="Player 1" />
                   <input type="text" value={players[1]} onChange={(e) => this.props.setPlayerName(1, e.currentTarget.value)} placeholder="Player 2" />
                 </div>); 
-      case "doubles" : 
+      case MatchType.DOUBLES : 
         return (<div className="name-input">
                   <div className="team-group">
                     <input type="text" value={players[1]} onChange={(e) => this.props.setPlayerName(1, e.currentTarget.value)} placeholder="Team A player 2" />
@@ -45,22 +46,22 @@ class SetupMatch extends Component {
 
     let disablestart = true;
 
-    if (matchtype === "singles") {
-      disablestart = players[0] === "" || players[1] === "";
+    if (matchtype === MatchType.SINGLES) {
+      disablestart = !players[0] || !players[1];
     }
     else {
-      disablestart = players[0] === "" || players[1] === "" || players[2] === "" || players[3] === "";
+      disablestart = !players[0] || !players[1] || !players[2] || !players[3];
     }
 
     return (<div className="firstload">
-      <h1>New match</h1>
+      <h1 className="app-title">New match</h1>
       <div className="match-input">
-      <input id="mtcsng" className="matchtype matchtype-singles" type="radio" name="matchtype" onChange={() => this.props.setMatchType("singles")} value="singles" checked={matchtype==="singles"} />
+      <input id="mtcsng" className="matchtype matchtype-singles" type="radio" name="matchtype" onChange={() => this.props.setMatchType(MatchType.SINGLES)} value={MatchType.SINGLES} checked={matchtype===MatchType.SINGLES} />
       <label htmlFor={"mtcsng"}>Singles</label>
-      <input id="mtcdbl" className="matchtype matchtype-doubles" type="radio" name="matchtype" onChange={() => this.props.setMatchType("doubles")} value="doubles" checked={matchtype==="doubles"} />
+      <input id="mtcdbl" className="matchtype matchtype-doubles" type="radio" name="matchtype" onChange={() => this.props.setMatchType(MatchType.DOUBLES)} value={MatchType.DOUBLES} checked={matchtype===MatchType.DOUBLES} />
       <label htmlFor={"mtcdbl"}>Doubles</label>
       </div>
-      {matchtype === "singles" ?
+      {matchtype === MatchType.SINGLES ?
         <p>Enter player names</p>
         :
         [<p key={0}>Enter teams</p>,
@@ -72,7 +73,7 @@ class SetupMatch extends Component {
       }
       {this.getPlayerInputs(matchtype, players)}
       <p>Choose who is serving first to start match</p>
-      {matchtype === "singles" ?
+      {matchtype === MatchType.SINGLES ?
         <div className="serve-select">
           <button disabled={disablestart} onClick={() => {this.props.startMatch(0);router.push(mode)}}>{players[0] || "Enter a player 1 name"}</button>
           <button disabled={disablestart} onClick={() => {this.props.startMatch(1);router.push(mode)}}>{players[1] || "Enter a player 2 name"}</button>

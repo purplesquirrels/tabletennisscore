@@ -1,0 +1,40 @@
+
+.main-app-title {
+	margin: 5vh 0;
+	padding: 5vh 0;
+	font-size: 20vh;
+	font-weight: normal;
+	text-transform: uppercase;
+	color: #FFF;
+	background: linear-gradient(to left, #ec0028 0%,#ec0028 50%,#008ef4 50%,#008ef4 99%);
+	box-shadow: -2vw 1vw 10vw rgba(0,0,0,0.3);
+}
+
+.main-menu {
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.main-menu-button {
+	width: 32%;
+	height: 50vh;
+	max-height: 25vmin;
+	-webkit-appearance: none;
+	border: 2px solid #FFF;
+	background: rgba(255,255,255,0.1);
+	color: #FFF;
+	text-transform: uppercase;
+	font-size: 1.5rem;
+	font-weight: bold;
+	border-radius: 3vmin;
+}
+
+@media (max-width: 800px) {
+
+	.main-menu-button {
+		font-size: 1rem;
+	}
+}

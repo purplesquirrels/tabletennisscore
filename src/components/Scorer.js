@@ -79,6 +79,7 @@ class Scorer extends Component {
     };
 
     let appscoreclasses = classnames({
+      "admin" : true,
       "App-score" : true,
       "swapends" : state.swapends,
       "doubles" : matchtype === "doubles",
@@ -111,11 +112,11 @@ class Scorer extends Component {
     ];
 
     return (
-      <div className="App">
+      <div className="scorer">
         <div className="App-results">
           {this.getSetScores(matchtype, sets)}
           <button className="newmatch" onClick={() => {this.props.newMatch(); this.props.router.push('start')}}>New</button>
-          <button className="cancelmatch" onClick={() => {this.props.cancelMatch(); this.props.router.push('start')}}>Cancel</button>
+          {/*<button className="cancelmatch" onClick={() => {this.props.cancelMatch(); this.props.router.push('start')}}>Cancel</button>*/}
           {mode === "broadcast" && <div className="score-matchcode">{this.props.matchcode}</div>}
           {firstgame && <button className="undoendset" onClick={this.props.undoEndSet}><Icon icon="undo"/></button>}
           <button className="endset" onClick={this.props.endSet}>End set</button>

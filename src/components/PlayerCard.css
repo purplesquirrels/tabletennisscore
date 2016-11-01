@@ -1,6 +1,6 @@
 
 
-.player {
+.admin .player {
   position: relative;
   display: flex;
   align-items: center;
@@ -18,25 +18,26 @@
   transition: background-color 0.2s, transform 0.75s;
   //transition-delay: 0.1s;
 }
-.swapends .player:nth-of-type(1) {
+.admin.swapends .player:nth-of-type(1) {
   transform: translateX(125%)
 }
-.swapends .player:nth-of-type(2) {
+.admin.swapends .player:nth-of-type(2) {
   transform: translateX(-125%)
 }
 
-.playername {
+.admin .playername {
   font-size: 1.5rem;
   position: absolute;
   top: 0;
   left: 0;
   padding: 0.25em;
 }
-.removescore {
+.admin .removescore {
   font-size: 1.5rem;
   position: absolute;
-  bottom: -0.9rem;
+  bottom: 0;
   right: 50%;
+  transform: translateY(50%);
   padding: 0 0.5em;
   border: 3px solid #FFF;
   background-color: #f75555;
@@ -46,96 +47,96 @@
   margin-right: -2rem;
 }
 
-.removescore:focus {
+.admin .removescore:focus {
   outline: none;
 }
 
-.singles .player.serving {
+.admin.singles .player.serving {
   background: #6de86c;
   color: #333;
 }
 
-.doubles .player .playername {
+.admin.doubles .player .playername {
   transform: translateY(0);
   transition: transform 0.5s;
 }
-.doubles .player2 .playername {
+.admin.doubles .player2 .playername {
   left: auto;
   right: 0;
 }
-.doubles .player1 .player-a {
+.admin.doubles .player1 .player-a {
     bottom: 0;
     top: auto;
 }
 
-.doubles .player2 .player-b {
+.admin.doubles .player2 .player-b {
     bottom: 0;
     top: auto;
 }
 
-.doubles.swapends .player1 .playername {
+.admin.doubles.swapends .player1 .playername {
   left: auto;
   right: 0;
 }
-.doubles.swapends .player2 .playername {
+.admin.doubles.swapends .player2 .playername {
   left: 0;
   right: auto;
 }
 
-.doubles.swapends .player1 .player-a {
+.admin.doubles.swapends .player1 .player-a {
   bottom: auto;
   top: 0;
 }
-.doubles.swapends .player1 .player-b {
+.admin.doubles.swapends .player1 .player-b {
   bottom: 0;
   top: auto;
 }
 
-.doubles.swapends .player2 .player-a {
+.admin.doubles.swapends .player2 .player-a {
   bottom: 0;
   top: auto;
 }
-.doubles.swapends .player2 .player-b {
+.admin.doubles.swapends .player2 .player-b {
   bottom: auto;
   top: 0;
 }
 
-.doubles .player1.swapped .player-a {
-  transform: translateY(calc(-70vh + 100%));
+.admin.doubles .player1.swapped .player-a {
+  transform: translateY(calc(-60vh + 100%));
 }
-.doubles .player1.swapped .player-b {
-  transform: translateY(calc(70vh - 100%));
+.admin.doubles .player1.swapped .player-b {
+  transform: translateY(calc(60vh - 100%));
 }
-.doubles .player2.swapped .player-a {
-  transform: translateY(calc(70vh - 100%));
+.admin.doubles .player2.swapped .player-a {
+  transform: translateY(calc(60vh - 100%));
 }
-.doubles .player2.swapped .player-b {
-  transform: translateY(calc(-70vh + 100%));
-}
-
-
-.doubles.swapends .player1.swapped .player-a {
-  transform: translateY(calc(70vh - 100%));
-}
-.doubles.swapends .player1.swapped .player-b {
-  transform: translateY(calc(-70vh + 100%));
-}
-.doubles.swapends .player2.swapped .player-a {
-  transform: translateY(calc(-70vh + 100%));
-}
-.doubles.swapends .player2.swapped .player-b {
-  transform: translateY(calc(70vh - 100%));
+.admin.doubles .player2.swapped .player-b {
+  transform: translateY(calc(-60vh + 100%));
 }
 
-.doubles .player1.serving:not(.swapped) .player-a {
+
+.admin.doubles.swapends .player1.swapped .player-a {
+  transform: translateY(calc(60vh - 100%));
+}
+.admin.doubles.swapends .player1.swapped .player-b {
+  transform: translateY(calc(-60vh + 100%));
+}
+.admin.doubles.swapends .player2.swapped .player-a {
+  transform: translateY(calc(-60vh + 100%));
+}
+.admin.doubles.swapends .player2.swapped .player-b {
+  transform: translateY(calc(60vh - 100%));
+}
+
+.admin.doubles .player1.serving:not(.swapped) .player-a {
   color: #6de86c;
 }
-.doubles .player1.serving.swapped .player-b {
+.admin.doubles .player1.serving.swapped .player-b {
   color: #6de86c;
 }
-.doubles .player2.serving:not(.swapped) .player-a {
+.admin.doubles .player2.serving:not(.swapped) .player-a {
   color: #6de86c;
 }
-.doubles .player2.serving.swapped .player-b {
+.admin.doubles .player2.serving.swapped .player-b {
   color: #6de86c;
 }

@@ -2,10 +2,26 @@
   box-sizing: border-box;
 }
 
-html, body, #root, .App {
-  height: 100%;
+.App {
+	color: #FFF;
+	background: radial-gradient(ellipse at center,  rgba(0,0,0,0) 43%, rgba(0,0,0,0.35) 100%),
+				linear-gradient(to right,  #008ef4 1%,#008ef4 50%,#ec0028 50%,#ec0028 100%);
 }
 
-body {
-  overflow: hidden;
+.app-content {
+	position: relative;
+	z-index: 3;
+	height: 100%;
+}
+.app-title {
+	width: auto;
+	margin: 0 0 4vmin;
+	padding: 0.2em 0;
+	font-size: 1.5rem;
+	font-weight: normal;
+	text-transform: uppercase;
+	background: #FFF;
+	color: #FFF;
+	background: linear-gradient(to left, #ec0028 0%,#ec0028 50%,#008ef4 50%,#008ef4 99%);
+	box-shadow: -2vw 1vw 10vw rgba(0,0,0,0.3);
 }

@@ -1,13 +1,17 @@
 
 .firstload {
-  width: 50vw;
+  width: 60vw;
   min-width: 410px;
   height: 100vh;
   min-height: 315px;
-  display: flex;
-  flex-direction: column;
+  /*display: flex;
+  flex-direction: column;*/
   margin: 0 auto;
   text-align: center;
+  background: #222;
+  padding: 4vmin;
+      overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width:450px) {
@@ -16,6 +20,9 @@
     width: 100%;
   }
 }
+.team-group {
+  width: 50%;
+}
 
 .firstload input[type='radio'] {
   position: absolute;
@@ -23,23 +30,55 @@
 }
 .firstload input[type='radio'] + label {
   padding: 1em;
-  margin: 0 0.25em;
+  margin: 0;
   flex: 1 1 50%;
   background: transparent;
-  border: 1px solid #CCC;
+  border: 2px solid #FFF;
+  text-transform: uppercase;
 }
+
+.firstload input[type='radio'] + label:nth-of-type(1) {
+  border-right-width: 1px;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+.firstload input[type='radio'] + label:nth-of-type(2) {
+  border-left-width: 1px;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
 .firstload input[type='radio']:checked + label {
-  background: #6de86c;
+  background: #FFF;
+  color: #222;
 }
 
 .firstload input[type='text'] {
   padding: 1em;
-  margin: 0 0.25em;
+  float: left;
   flex: 1 1 50%;
   -webkit-appearance: none;
   border-radius: 0;
-  border: 1px solid #CCC;
   min-width: 0;
+  color: #FFF;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid #FFF;
+}
+.firstload input[type='text']::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.firstload .team-group:nth-of-type(1) input[type='text'] {
+  border-right-width: 1px;
+}
+.firstload .team-group:nth-of-type(2) input[type='text'] {
+  border-left-width: 1px;
+}
+.firstload .team-group input[type='text']:nth-of-type(1) {
+  border-bottom-width: 1px;
+}
+.firstload .team-group input[type='text']:nth-of-type(2) {
+  border-top-width: 1px;
 }
 
 .match-input,
@@ -63,13 +102,15 @@
   flex: 1 1 50%;
   padding: 1em;
   margin: 0 0.25em;
+  -webkit-appearance: none;
+  border: none;
 }
 .serve-select button:disabled {
   opacity: 0.3;
 }
 
 .matchcode {
-  padding: 1.5em;
+  padding: 1.5em 0 0;
   font-size: 1.5rem;
   font-family: monospace;
   width: 100%;

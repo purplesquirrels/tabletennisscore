@@ -100,6 +100,7 @@ html, body, #root, .App {
     padding-top: 5vh;
 }
 .App-score {
+  height: 60vh;
   flex: 1 1 auto;
   margin: 5vh 0;
   display: flex;

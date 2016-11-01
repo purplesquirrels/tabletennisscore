@@ -15,11 +15,13 @@ class Home extends Component {
   
     //const disablestart = players[0] === "" || players[1] === "";
 
-    return (<div className="firstload">
-      <h1>TT</h1>
-      <button onClick={() => {this.props.setMode('sandbox');router.push('start')}}>Score game</button>
-      <button onClick={() => {this.props.setMode('broadcast');router.push('start')}}>Broadcast game</button>
-      <button onClick={() => {router.push('/view')}}>View game</button>
+    return (<div className="">
+      <h1 className="main-app-title">TT</h1>
+      <div className="main-menu">
+        <button className="main-menu-button" onClick={() => {this.props.setMode('sandbox');router.push('start')}}>Score game</button>
+        <button className="main-menu-button" onClick={() => {this.props.setMode('broadcast');router.push('start')}}>Broadcast game</button>
+        <button className="main-menu-button" onClick={() => {router.push('/view')}}>View game</button>
+      </div>
     </div>)
 
   }

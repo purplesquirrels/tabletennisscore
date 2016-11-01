@@ -18,7 +18,6 @@ const cloneSet = (set) => {
   };
 }
 
-
 const blankset = {
     firstload: true,
     players: ["", ""],
@@ -29,17 +28,6 @@ const blankset = {
     serving: 0
 };
 
-/*
-const blankdoublesset = {
-    firstload: true,
-    players: ["", "", "", ""], // team 1 p1,p2 , team 2 p1,p2,
-    playerswap: [false, false], // team 1 swapped, team 2 swapped
-    scores: [0,0],
-    swapends: false,
-    initialserve: 0,
-    serving: 0
-};
-*/
 const initialstate = {
     mode: ConfigDefaults.mode,
     numserves: ConfigDefaults.numserves,
@@ -56,15 +44,34 @@ const initialstate = {
 /*const initialstate = {
     mode: ConfigDefaults.mode,
     numserves: ConfigDefaults.numserves,
+    playto: ConfigDefaults.playto,
+    matchtype: MatchType.DOUBLES,
+    currentmatch: 0,
+    matchcode: '1234',
+    matches: [{
+        started: true,
+        sets: [{...cloneSet(blankset),scores:[5,12],players:["Narelle","Hidir", "Deane", "Greg"]}, {...cloneSet(blankset),scores:[21,18],players:["Narelle","Hidir", "Deane", "Greg"]},{...cloneSet(blankset),scores:[7,18],players:["Narelle","Hidir", "Deane", "Greg"]}]
+    }]
+}
+*/
+
+/*const initialstate = {
+    mode: ConfigDefaults.mode,
+    numserves: ConfigDefaults.numserves,
+    playto: ConfigDefaults.playto,
+    matchtype: ConfigDefaults.matchtype,
     currentmatch: 0,
     matchcode: '12345',
     matches: [{
+        started: false,
         sets: [cloneSet(blankset)]
     },
     {
+        started: true,
         sets: [{...cloneSet(blankset),scores:[10,5]}, {...cloneSet(blankset),scores:[10,5]}]
     },
     {
+        started: true,
         sets: [{...cloneSet(blankset),scores:[5,12],players:["Narelle","Hidir"]}, {...cloneSet(blankset),scores:[21,18],players:["A","B"]},{...cloneSet(blankset),scores:[7,18],players:["A","B"]}]
     }]
 }*/
