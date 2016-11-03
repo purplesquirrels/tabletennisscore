@@ -12,6 +12,15 @@ class SetupMatch extends Component {
     super(props);
     
     this.getPlayerInputs = this.getPlayerInputs.bind(this);
+    this.swapNames = this.swapNames.bind(this);
+  }
+
+  swapNames() {
+    var p1 = this.props.players[0];
+    var p2 = this.props.players[1];
+    
+    this.props.setPlayerName(0, p2);
+    this.props.setPlayerName(1, p1);
   }
 
   getPlayerInputs(matchtype, players) {
@@ -21,6 +30,7 @@ class SetupMatch extends Component {
         return (<div className="name-input">
                   <input type="text" value={players[0]} onChange={(e) => this.props.setPlayerName(0, e.currentTarget.value)} placeholder="Player 1" />
                   <input type="text" value={players[1]} onChange={(e) => this.props.setPlayerName(1, e.currentTarget.value)} placeholder="Player 2" />
+                  <button onClick={this.swapNames}>&lt;-&gt;</button>
                 </div>); 
       case MatchType.DOUBLES : 
         return (<div className="name-input">
