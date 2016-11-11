@@ -18,9 +18,25 @@ class SetupMatch extends Component {
   swapNames() {
     var p1 = this.props.players[0];
     var p2 = this.props.players[1];
-    
     this.props.setPlayerName(0, p2);
     this.props.setPlayerName(1, p1);
+  }
+
+  swapTeams() {
+    var p1 = this.props.players[0];
+    var p2 = this.props.players[1];
+
+    this.props.setPlayerName(0, this.props.players[2]);
+    this.props.setPlayerName(1, this.props.players[3]);
+    this.props.setPlayerName(2, p1);
+    this.props.setPlayerName(3, p2);
+  }
+  swapTeamsPlayers(team) {
+    var p1 = this.props.players[team === 0 ? 0 : 2];
+    var p2 = this.props.players[team === 0 ? 1 : 3];
+
+    this.props.setPlayerName(team === 0 ? 0 : 2, p2);
+    this.props.setPlayerName(team === 0 ? 1 : 3, p1);
   }
 
   getPlayerInputs(matchtype, players) {
@@ -41,6 +57,11 @@ class SetupMatch extends Component {
                   <div className="team-group">
                     <input type="text" value={players[2]} onChange={(e) => this.props.setPlayerName(2, e.currentTarget.value)} placeholder="Team B player 1" />
                     <input type="text" value={players[3]} onChange={(e) => this.props.setPlayerName(3, e.currentTarget.value)} placeholder="Team B player 2" />
+                  </div>
+                  <div class="switches">
+                    <button onClick={() => this.swapTeamsPlayers(0)}>^</button>
+                    <button onClick={() => this.swapTeams()}>&lt;-&gt;</button>
+                    <button onClick={() => this.swapTeamsPlayers(1)}>^</button>
                   </div>
                 </div>); 
       default:
