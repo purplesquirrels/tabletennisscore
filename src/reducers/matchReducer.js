@@ -34,7 +34,7 @@ const initialstate = {
     playto: ConfigDefaults.playto,
     matchtype: ConfigDefaults.matchtype,
     currentmatch: 0,
-    matchcode: '12345',
+    matchcode: 'initial',
     matches: [{
         started: false,
         sets: [cloneSet(blankset)]
@@ -205,12 +205,16 @@ const matchReducer = (state = initialstate, action) => {
         }
         case "setMatchCode": {
 
-            state = {
-                ...state,
-                matchcode: payload.code
-            };
+            if (state.matchcode === "initial") { // only if initial to avoid overwriting on socket disconnect/reconnect
 
-            notify('send-state', {state: {...state}});
+                state = {
+                    ...state,
+                    matchcode: payload.code
+                };
+
+                notify('send-state', {state: {...state}});
+
+            }
             break;
         }
         case "startMatch": {
