@@ -25,6 +25,10 @@ function setupSocket() {
 		console.log("connected");
 	});
 
+	socket.on('ping', function(data){
+    	socket.emit('pong', {pong: 1});
+    });
+
 	socket.on('send-match-code', function (data) {
 		data = JSON.parse(data);
 		store.dispatch(setMatchCode(data.code));
