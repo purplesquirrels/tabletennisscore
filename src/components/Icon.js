@@ -16,7 +16,11 @@ class Icon extends Component {
 
 	renderGraphic() {
 		switch (this.props.icon) {
-			case 'swap':
+			case 'swapvert':
+				return (
+					<path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z" />
+				);
+			case 'swaphoriz':
 				return (
 					<path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" />
 				);

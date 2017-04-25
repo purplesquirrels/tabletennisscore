@@ -214,7 +214,7 @@ class ScoreView extends Component {
 			<div className={appscoreclasses}>
 				{players}
 				<div className="divider"></div>
-				<button className="mirror" onClick={(e) => this.setState({ mirror: !this.state.mirror })}><Icon icon='swap' /></button>
+				<button className="mirror" onClick={(e) => this.setState({ mirror: !this.state.mirror })}><Icon icon='swaphoriz' /></button>
 			</div>
 		</div>);
 
@@ -230,7 +230,7 @@ class ScoreView extends Component {
 				</div>
 				<div className={appscoreclasses}>
 				  {players}
-				  <button className="mirror" onClick={(e) => this.setState({mirror:!this.state.mirror})}><Icon icon='swap'/></button>
+				  <button className="mirror" onClick={(e) => this.setState({mirror:!this.state.mirror})}><Icon icon='swaphoriz'/></button>
 				</div>
 			  </div>
 			);*/

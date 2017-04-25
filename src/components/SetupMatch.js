@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as Actions from "../actions/matchActions";
+import Icon from './Icon';
 import './SetupMatch.css';
 import { MatchType } from '../constants/MatchType';
 
@@ -45,22 +46,24 @@ class SetupMatch extends Component {
 				return (<div className="name-input">
 					<input type="text" value={players[0]} onChange={(e) => this.props.setPlayerName(0, e.currentTarget.value)} placeholder="Player 1" />
 					<input type="text" value={players[1]} onChange={(e) => this.props.setPlayerName(1, e.currentTarget.value)} placeholder="Player 2" />
-					<button onClick={this.swapNames}>&lt;-&gt;</button>
+					<button className="swapbutton" onClick={this.swapNames}><Icon icon='swaphoriz' /></button>
 				</div>);
 			case MatchType.DOUBLES:
-				return (<div className="name-input">
-					<div className="team-group">
-						<input type="text" value={players[1]} onChange={(e) => this.props.setPlayerName(1, e.currentTarget.value)} placeholder="Team A player 2" />
-						<input type="text" value={players[0]} onChange={(e) => this.props.setPlayerName(0, e.currentTarget.value)} placeholder="Team A player 1" />
+				return (<div>
+					<div className="name-input">
+						<div className="team-group">
+							<input type="text" value={players[1]} onChange={(e) => this.props.setPlayerName(1, e.currentTarget.value)} placeholder="Team A player 2" />
+							<input type="text" value={players[0]} onChange={(e) => this.props.setPlayerName(0, e.currentTarget.value)} placeholder="Team A player 1" />
+						</div>
+						<div className="team-group">
+							<input type="text" value={players[2]} onChange={(e) => this.props.setPlayerName(2, e.currentTarget.value)} placeholder="Team B player 1" />
+							<input type="text" value={players[3]} onChange={(e) => this.props.setPlayerName(3, e.currentTarget.value)} placeholder="Team B player 2" />
+						</div>
 					</div>
-					<div className="team-group">
-						<input type="text" value={players[2]} onChange={(e) => this.props.setPlayerName(2, e.currentTarget.value)} placeholder="Team B player 1" />
-						<input type="text" value={players[3]} onChange={(e) => this.props.setPlayerName(3, e.currentTarget.value)} placeholder="Team B player 2" />
-					</div>
-					<div class="switches">
-						<button onClick={() => this.swapTeamsPlayers(0)}>^</button>
-						<button onClick={() => this.swapTeams()}>&lt;-&gt;</button>
-						<button onClick={() => this.swapTeamsPlayers(1)}>^</button>
+					<div className="switches">
+						<button className="swapbutton" title="swap team a players" onClick={() => this.swapTeamsPlayers(0)}><Icon icon='swapvert' /></button>
+						<button className="swapbutton" title="swap team sides" onClick={() => this.swapTeams()}><Icon icon='swaphoriz' /></button>
+						<button className="swapbutton" title="swap team b players" onClick={() => this.swapTeamsPlayers(1)}><Icon icon='swapvert' /></button>
 					</div>
 				</div>);
 			default:
