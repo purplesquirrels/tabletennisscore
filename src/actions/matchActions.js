@@ -2,7 +2,7 @@ export function setMatchCode(code) {
     return {
         type: "setMatchCode",
         payload: {
-        	code
+            code
         }
     };
 }
@@ -35,7 +35,7 @@ export function setCurrentMatch(match) {
     return {
         type: "setCurrentMatch",
         payload: {
-        	match
+            match
         }
     };
 }
@@ -44,8 +44,8 @@ export function setPlayerName(player, value) {
     return {
         type: "setPlayerName",
         payload: {
-        	player,
-        	value
+            player,
+            value
         }
     };
 }
@@ -54,7 +54,7 @@ export function startMatch(firstserver) {
     return {
         type: "startMatch",
         payload: {
-        	firstserver
+            firstserver
         }
     };
 }
@@ -63,7 +63,7 @@ export function setInitialServe(player) {
     return {
         type: "setInitialServe",
         payload: {
-        	player
+            player
         }
     };
 }
@@ -72,7 +72,7 @@ export function addScore(player) {
     return {
         type: "addScore",
         payload: {
-        	player
+            player
         }
     };
 }
@@ -81,7 +81,7 @@ export function removeScore(player) {
     return {
         type: "removeScore",
         payload: {
-        	player
+            player
         }
     };
 }

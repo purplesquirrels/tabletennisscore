@@ -1,4 +1,4 @@
-import {createStore, combineReducers } from "redux";
+import { createStore, combineReducers } from "redux";
 //import logger from "redux-logger";
 
 import match from "../reducers/matchReducer";

@@ -2,32 +2,27 @@ import store from './store/store';
 import { setMatchCode } from './actions/matchActions';
 
 const io = require('socket.io-client');
-
-//io.set("reconnection limit", 10);
-
 let socket;
-
 
 export const notify = (message, payload) => {
 
 	var state = store.getState();
 
-	if (socket && (state.matchdata.mode === "broadcast" || message === "join-match")){
-      	socket.emit(message, JSON.stringify({...payload, room: state.matchdata.matchcode}));
-    }
+	if (socket && (state.matchdata.mode === "broadcast" || message === "join-match")) {
+		socket.emit(message, JSON.stringify({ ...payload, room: state.matchdata.matchcode }));
+	}
 }
 
 function setupSocket() {
-	//socket = io('192.168.1.84:3000');
 	socket = io(window.location.host);
 
-	socket.on('connect', function(){
+	socket.on('connect', function () {
 		console.log("connected");
 	});
 
-	socket.on('ping', function(data){
-    	socket.emit('pong', {pong: 1});
-    });
+	socket.on('ping', function (data) {
+		socket.emit('pong', { pong: 1 });
+	});
 
 	socket.on('send-match-code', function (data) {
 		data = JSON.parse(data);
@@ -57,7 +52,7 @@ function setupSocket() {
 		let state = store.getState();
 
 		if (state.matchdata.mode === "broadcast") {
-		    notify('new-state', { state });
+			notify('new-state', { state });
 		}
 	});
 

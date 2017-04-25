@@ -3,26 +3,26 @@ import { AppMode } from '../constants/AppMode';
 import { MatchType } from '../constants/MatchType';
 
 const ConfigDefaults = {
-  numserves: 5,
-  playto: 21,
-  matchtype: MatchType.SINGLES,
-  mode: AppMode.VIEW
+    numserves: 2,
+    playto: 11,
+    matchtype: MatchType.SINGLES,
+    mode: AppMode.VIEW
 }
 
 const cloneSet = (set) => {
-  return {
-    ...set,
-    players : [...set.players],
-    playerswap : [...set.playerswap],
-    scores : [...set.scores]
-  };
+    return {
+        ...set,
+        players: [...set.players],
+        playerswap: [...set.playerswap],
+        scores: [...set.scores]
+    };
 }
 
 const blankset = {
     firstload: true,
     players: ["", ""],
     playerswap: [false, false],
-    scores: [0,0],
+    scores: [0, 0],
     swapends: false,
     initialserve: 0,
     serving: 0
@@ -40,42 +40,6 @@ const initialstate = {
         sets: [cloneSet(blankset)]
     }]
 }
-
-/*const initialstate = {
-    mode: ConfigDefaults.mode,
-    numserves: ConfigDefaults.numserves,
-    playto: ConfigDefaults.playto,
-    matchtype: MatchType.DOUBLES,
-    currentmatch: 0,
-    matchcode: '1234',
-    matches: [{
-        started: true,
-        sets: [{...cloneSet(blankset),scores:[5,12],players:["Narelle","Hidir", "Deane", "Greg"]}, {...cloneSet(blankset),scores:[21,18],players:["Narelle","Hidir", "Deane", "Greg"]},{...cloneSet(blankset),scores:[7,18],players:["Narelle","Hidir", "Deane", "Greg"]}]
-    }]
-}
-*/
-
-/*const initialstate = {
-    mode: ConfigDefaults.mode,
-    numserves: ConfigDefaults.numserves,
-    playto: ConfigDefaults.playto,
-    matchtype: ConfigDefaults.matchtype,
-    currentmatch: 0,
-    matchcode: '12345',
-    matches: [{
-        started: false,
-        sets: [cloneSet(blankset)]
-    },
-    {
-        started: true,
-        sets: [{...cloneSet(blankset),scores:[10,5]}, {...cloneSet(blankset),scores:[10,5]}]
-    },
-    {
-        started: true,
-        sets: [{...cloneSet(blankset),scores:[5,12],players:["Narelle","Hidir"]}, {...cloneSet(blankset),scores:[21,18],players:["A","B"]},{...cloneSet(blankset),scores:[7,18],players:["A","B"]}]
-    }]
-}*/
-
 
 
 const determineService = (matchtype, numserves, playto, initialserver, scores) => {
@@ -96,8 +60,8 @@ const determineService = (matchtype, numserves, playto, initialserver, scores) =
     if (totalscore % numserves === 0) services += 1;
 
     // check if deuce
-    if (scores[0] >= playto-1 && scores[1] >= playto-1 && totalscore >= ((playto-1) * 2)) {
-        services = totalscore - ((playto-1) * 2) + 1;
+    if (scores[0] >= playto - 1 && scores[1] >= playto - 1 && totalscore >= ((playto - 1) * 2)) {
+        services = totalscore - ((playto - 1) * 2) + 1;
     }
 
     if (matchtype === MatchType.SINGLES) {
@@ -113,19 +77,19 @@ const determineService = (matchtype, numserves, playto, initialserver, scores) =
     else if (matchtype === MatchType.DOUBLES) {
 
         switch (services % 4) {
-            case 1 : // first team first server (initialserver)
+            case 1: // first team first server (initialserver)
                 server = initialserver;
                 playerswap = [false, false];
                 break;
-            case 2 : // second team first server
+            case 2: // second team first server
                 server = initialserver === 0 ? 2 : 0;
                 playerswap = initialserver === 0 ? [true, false] : [false, true];
                 break;
-            case 3 : // first team second server
+            case 3: // first team second server
                 server = initialserver === 0 ? 1 : 3;
                 playerswap = [true, true];
                 break;
-            case 0 : // second team second server
+            case 0: // second team second server
                 server = initialserver === 0 ? 3 : 1;
                 playerswap = initialserver === 0 ? [false, true] : [true, false];
                 break;
@@ -158,7 +122,7 @@ const matchReducer = (state = initialstate, action) => {
                 numserves: payload.numserves
             };
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
 
             break;
         }
@@ -169,7 +133,7 @@ const matchReducer = (state = initialstate, action) => {
                 currentmatch: payload.match
             };
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
             break;
         }
         case "setPlayTo": {
@@ -180,7 +144,7 @@ const matchReducer = (state = initialstate, action) => {
                 numserves: payload.numserves
             };
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
             break;
         }
         case "setMatchType": {
@@ -190,7 +154,7 @@ const matchReducer = (state = initialstate, action) => {
                 matchtype: payload.matchtype
             };
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
             break;
         }
         case "setMode": {
@@ -200,7 +164,7 @@ const matchReducer = (state = initialstate, action) => {
                 mode: payload.mode
             };
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
             break;
         }
         case "setMatchCode": {
@@ -212,7 +176,7 @@ const matchReducer = (state = initialstate, action) => {
                     matchcode: payload.code
                 };
 
-                notify('send-state', {state: {...state}});
+                notify('send-state', { state: { ...state } });
 
             }
             break;
@@ -238,7 +202,7 @@ const matchReducer = (state = initialstate, action) => {
             state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
             state.matches[state.currentmatch].sets[0] = cset;
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
             break;
         }
         case "setPlayerName": {
@@ -258,11 +222,11 @@ const matchReducer = (state = initialstate, action) => {
             state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
             state.matches[state.currentmatch].sets[0] = cset;
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
 
             break;
         }
-        case "setInitialServe" : {
+        case "setInitialServe": {
 
             let cset = {
                 ...state.matches[state.currentmatch].sets[0],
@@ -277,10 +241,10 @@ const matchReducer = (state = initialstate, action) => {
             state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
             state.matches[state.currentmatch].sets[0] = cset;
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
             break;
         }
-        case "addScore" : {
+        case "addScore": {
 
             let cset = state.matches[state.currentmatch].sets[0];
             let scores = [...cset.scores];
@@ -303,11 +267,11 @@ const matchReducer = (state = initialstate, action) => {
             state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
             state.matches[state.currentmatch].sets[0] = cset;
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
 
             break;
         }
-        case "removeScore" : {
+        case "removeScore": {
 
             let cset = state.matches[state.currentmatch].sets[0];
 
@@ -332,13 +296,13 @@ const matchReducer = (state = initialstate, action) => {
 
                 state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
                 state.matches[state.currentmatch].sets[0] = cset;
-                
-                notify('send-state', {state: {...state}});
+
+                notify('send-state', { state: { ...state } });
             }
 
             break;
         }
-        case "undoEndSet" : {
+        case "undoEndSet": {
 
             if (state.matches[state.currentmatch].sets.length > 1) {
 
@@ -349,12 +313,12 @@ const matchReducer = (state = initialstate, action) => {
                 state.matches[state.currentmatch].sets = [...state.matches[state.currentmatch].sets];
                 state.matches[state.currentmatch].sets.shift();
 
-                notify('send-state', {state: {...state}});
+                notify('send-state', { state: { ...state } });
             }
 
             break;
         }
-        case "endSet" : {
+        case "endSet": {
 
             state = {
                 ...state
@@ -366,15 +330,15 @@ const matchReducer = (state = initialstate, action) => {
             nset.swapends = !state.matches[state.currentmatch].sets[0].swapends;
 
             switch (state.matchtype) {
-                case MatchType.SINGLES :
+                case MatchType.SINGLES:
                     nset.initialserve = state.matches[state.currentmatch].sets[0].initialserve === 0 ? 1 : 0;
                     break;
-                case MatchType.DOUBLES :
+                case MatchType.DOUBLES:
                     nset.initialserve = state.matches[state.currentmatch].sets[0].initialserve === 0 ? 2 : 0;
                     break;
                 default:
             }
-            
+
             nset.serving = nset.initialserve;
 
             state.matches[state.currentmatch].sets = [
@@ -382,11 +346,11 @@ const matchReducer = (state = initialstate, action) => {
                 ...state.matches[state.currentmatch].sets
             ];
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
 
             break;
         }
-        case "cancelMatch" : {
+        case "cancelMatch": {
 
             let matches = [...state.matches];
             matches.shift();
@@ -399,11 +363,11 @@ const matchReducer = (state = initialstate, action) => {
                 matches: matches
             }
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
 
             break;
         }
-        case "newMatch" : {
+        case "newMatch": {
 
             state = {
                 ...state,
@@ -412,7 +376,7 @@ const matchReducer = (state = initialstate, action) => {
                 }, ...state.matches]
             }
 
-            notify('send-state', {state: {...state}});
+            notify('send-state', { state: { ...state } });
 
             break;
         }

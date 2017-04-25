@@ -10,11 +10,11 @@ const PlayerCard = (props) => {
 		names.push(<div key={1} className={"playername player-b"}>{props.playername[1]}</div>)
 	}
 
-	return 	(<div className={classnames({...props.classes, "player":true})} onClick={props.onAddScore}>
-				{names}
-				{props.scores}
-				{props.subtract && <button className="removescore" onClick={(e) => {e.stopPropagation();props.onRemoveScore()}}><Icon icon="remove"/></button>}
-			</div>)
+	return (<div className={classnames({ ...props.classes, "player": true })} onClick={props.onAddScore}>
+		{names}
+		{props.scores}
+		{props.subtract && <button className="removescore" onClick={(e) => { e.stopPropagation(); props.onRemoveScore() }}><Icon icon="remove" /></button>}
+	</div>)
 }
 
 export default PlayerCard;

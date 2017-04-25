@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
-//import classnames from 'classnames';
 import './App.css';
 
 class App extends Component {
 
-  /*constructor(props) {
-    super(props);
+	render() {
 
-  }*/
-
-  render() {
-
-    return (
-      <div className="App">
-        <div className="app-content">
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
+		return (
+			<div className="App">
+				<div className="app-content">
+					{this.props.children}
+				</div>
+			</div>
+		);
+	}
 }
 
 export default App;

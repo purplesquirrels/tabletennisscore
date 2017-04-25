@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './App';
 import Home from './components/Home';
@@ -16,9 +16,6 @@ import Socket from './socket';
 Socket.setupSocket();
 
 function checkForMatch(nextState, replace) {
-
-	//var state = store.getState().matchdata.matches[0].started;
-	
 	if (!store.getState().matchdata.matches[0].started) {
 		replace("/")
 	}

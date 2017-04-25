@@ -1,5 +1,5 @@
 export const AppMode = {
-  VIEW : "view",
-  BROADCAST : "broadcast",
-  SANDBOX : "sandbox"
+	VIEW: "view",
+	BROADCAST: "broadcast",
+	SANDBOX: "sandbox"
 }
