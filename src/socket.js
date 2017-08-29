@@ -14,7 +14,8 @@ export const notify = (message, payload) => {
 }
 
 function setupSocket() {
-	socket = io(window.location.host);
+	socket = io("frozen-bayou-19026.herokuapp.com");
+	// socket = io(window.location.host);
 
 	socket.on('connect', function () {
 		console.log("connected");
