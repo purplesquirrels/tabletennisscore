@@ -37,6 +37,7 @@ const initialstate = {
     matchcode: 'initial',
     matches: [{
         started: false,
+        time: 0,
         sets: [cloneSet(blankset)]
     }]
 }
@@ -196,6 +197,7 @@ const matchReducer = (state = initialstate, action) => {
 
             state.matches[state.currentmatch] = {
                 ...state.matches[state.currentmatch],
+                time: new Date().toUTCString(),
                 started: true
             };
 
@@ -372,6 +374,7 @@ const matchReducer = (state = initialstate, action) => {
             state = {
                 ...state,
                 matches: [{
+                    time: 0,
                     sets: [cloneSet(blankset)]
                 }, ...state.matches]
             }

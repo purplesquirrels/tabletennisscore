@@ -14,7 +14,42 @@ class Scorer extends Component {
 		super(props);
 
 		this.getSetScores = this.getSetScores.bind(this);
+		this.formatTimer = this.formatTimer.bind(this);
 
+		this.timer = null;
+
+		let now = new Date();
+
+		this.state = {
+			starttime: props.starttime,
+			timenow: now.toUTCString(),
+			duration: now.getTime() - (new Date(props.starttime).getTime())
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		let now = new Date();
+		this.setState({
+			starttime: nextProps.starttime,
+			timenow: now.toUTCString(),
+			duration: now.getTime() - (new Date(nextProps.starttime).getTime())
+		});
+	}
+
+	componentDidMount() {
+		this.timer = setInterval(() => {
+			let now = new Date();
+			this.setState({
+				timenow: new Date().toUTCString(),
+				duration: now.getTime() - (new Date(this.props.starttime).getTime())
+			});
+		}, 1000);
+	}
+
+	componentWillUnmount() {
+		if (this.timer) {
+			clearInterval(this.timer);
+		}
 	}
 
 	getSetScores(matchtype, sets) {
@@ -52,6 +87,19 @@ class Scorer extends Component {
 		if (results.length) return results;
 
 		return <div key="empty" className="firstset">First set</div>;
+	}
+
+	formatTimer(date) {
+		const d = new Date(date);
+		let h = d.getUTCHours();
+		let m = d.getUTCMinutes();
+		let s = d.getUTCSeconds();
+
+		h = h < 10 ? "0" + h : "" + h;
+		m = m < 10 ? "0" + m : "" + m;
+		s = s < 10 ? "0" + s : "" + s;
+
+		return (h === "00" ? "" : `${h}:`) + `${m}:${s}`;
 	}
 
 	render() {
@@ -110,6 +158,7 @@ class Scorer extends Component {
 			<div className="scorer">
 				<div className="App-results">
 					{this.getSetScores(matchtype, sets)}
+					<div className="timer">{this.formatTimer(this.state.duration)}</div>
 					<button className="newmatch" onClick={() => { this.props.newMatch(); this.props.router.push('start') }}>New</button>
 					{/*<button className="cancelmatch" onClick={() => {this.props.cancelMatch(); this.props.router.push('start')}}>Cancel</button>*/}
 					{mode === "broadcast" && <div className="score-matchcode">{this.props.matchcode}</div>}
@@ -129,6 +178,7 @@ const mapStateToProps = (state) => {
 		mode: state.matchdata.mode,
 		matchtype: state.matchdata.matchtype,
 		matchcode: state.matchdata.matchcode,
+		starttime: state.matchdata.matches[state.matchdata.currentmatch].time,
 		sets: state.matchdata.matches[state.matchdata.currentmatch].sets,
 		state: state.matchdata.matches[state.matchdata.currentmatch].sets[0]
 	};
