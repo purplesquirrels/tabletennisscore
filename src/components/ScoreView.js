@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import PlayerCardView from './PlayerCardView';
+import Timer from './Timer';
 import Icon from './Icon';
 import classnames from 'classnames';
 import './ScoreView.css';
@@ -211,6 +212,7 @@ class ScoreView extends Component {
 
 
 		return (<div className="scorer viewonly">
+			<Timer starttime={this.props.starttime} />
 			<div className={appscoreclasses}>
 				{players}
 				<div className="divider"></div>
@@ -241,6 +243,7 @@ const mapStateToProps = (state) => {
 	return {
 		matchcode: state.matchdata.matchcode,
 		matchtype: state.matchdata.matchtype,
+		starttime: state.matchdata.matches[state.matchdata.currentmatch].time,
 		sets: state.matchdata.matches[state.matchdata.currentmatch].sets,
 		state: state.matchdata.matches[state.matchdata.currentmatch].sets[0],
 		matches: state.matchdata.matches

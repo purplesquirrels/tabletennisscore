@@ -38,7 +38,6 @@ function setupSocket() {
 
 			data = JSON.parse(data);
 			data.state.mode = "view";
-
 			store.dispatch({
 				type: "applyState",
 				payload: {

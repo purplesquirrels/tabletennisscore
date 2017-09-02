@@ -1,0 +1,26 @@
+.timer {
+
+}
+
+.viewonly .timer {
+    font-size: 5.5vmin;
+    background: rgb(255, 255, 255);
+    color: rgba(1, 13, 41, 0.82);
+    width: auto;
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    margin-bottom: 4vmin;
+    border-radius: 100px;
+    font-family: monospace;
+
+    transition: transform 0.5s;
+    transform: translate(-50%, 150%);
+
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+}
+
+.viewonly .timer.visible {
+    transform: translate(-50%, 0);
+}
